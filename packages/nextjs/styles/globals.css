@@ -4,7 +4,7 @@
 
 :root,
 [data-theme] {
-  background: oklch(var(--b2));
+  background: oklch(var(--b1));
 }
 
 body {
@@ -24,9 +24,13 @@ p {
 }
 
 .btn {
-  @apply shadow-md;
+  @apply h-auto min-h-10 rounded-lg;
 }
 
 .btn.btn-ghost {
   @apply shadow-none;
+}
+
+.collapse-plus > .collapse-title:after {
+  @apply left-6;
 }
