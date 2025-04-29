@@ -3,6 +3,8 @@
 import Link from "next/link";
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { ProjectCard } from "~~/components/ProjectCard";
+import { projectsData } from "~~/utils/dummyData";
 
 const Home: NextPage = () => {
   return (
@@ -27,6 +29,24 @@ const Home: NextPage = () => {
               <br /> Asked Questions
               <PlusIcon className="w-8 h-8" />
             </Link>
+          </div>
+        </section>
+      </div>
+
+      <div id="projects" className="container mx-auto">
+        <section className="bg-base-300 rounded-lg p-8 mb-8">
+          <h2 className="mb-6 text-3xl md:text-4xl">Projects</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {projectsData.map(project => (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                description={project.description}
+                builders={project.builders}
+                githubUrl={project.githubUrl}
+                liveUrl={project.liveUrl}
+              />
+            ))}
           </div>
         </section>
       </div>
