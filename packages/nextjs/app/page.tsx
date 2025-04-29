@@ -2,70 +2,35 @@
 
 import Link from "next/link";
 import type { NextPage } from "next";
-import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
-
   return (
-    <>
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2 flex-col">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
+    <div>
+      <div className="container mx-auto">
+        <section className="lg:flex lg:justify-between bg-[#1f324a] rounded-lg p-8 mb-8 w-full relative bg-gradient-to-b from-[#1f324a] to-[#162434]">
+          <div className="max-w-3xl text-lg">
+            <h1 className="text-4xl md:text-6xl/[1.2]">
+              Welcome to <br className="hidden md:block" /> Arbitrum&apos;s Cohort
+            </h1>
+            <p className="mt-8">A place to contribute and learn.</p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut metus eget ipsum dapibus imperdiet.
+              Phasellus varius enim. In est ornare.
+            </p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Focus areas: DeFi projects, MEV solvers, AI agents and TEEs, DAO transparency tools</p>
           </div>
-
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
-        </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col md:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
+          <div className="mt-6 lg:mt-0 lg:self-end">
+            <Link href="/faq" className="btn btn-primary btn-lg py-2 px-4 leading-snug text-left">
+              Frequently
+              <br /> Asked Questions
+              <PlusIcon className="w-8 h-8" />
+            </Link>
           </div>
-        </div>
+        </section>
       </div>
-    </>
+    </div>
   );
 };
 
