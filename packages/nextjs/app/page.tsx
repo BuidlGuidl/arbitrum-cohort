@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ContributionLogItem } from "~~/components/ContributionLogItem";
+import { contributionLogData } from "~~/utils/contributionLogData";
 
 const Home: NextPage = () => {
   return (
@@ -36,9 +37,16 @@ const Home: NextPage = () => {
         <section className="bg-base-300 rounded-lg p-8 mb-8">
           <h2 className="mb-4 text-3xl md:text-4xl">Contribution Log</h2>
           <div className="divide-y">
-            <ContributionLogItem />
-            <ContributionLogItem />
-            <ContributionLogItem />
+            {contributionLogData.map(item => (
+              <ContributionLogItem
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                date={item.date}
+                amount={item.amount}
+                builder={item.builder}
+              />
+            ))}
           </div>
         </section>
       </div>
