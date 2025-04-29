@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { ContributionLogItem } from "~~/components/ContributionLogItem";
 
 const Home: NextPage = () => {
   return (
@@ -27,6 +28,17 @@ const Home: NextPage = () => {
               <br /> Asked Questions
               <PlusIcon className="w-8 h-8" />
             </Link>
+          </div>
+        </section>
+      </div>
+
+      <div id="contributions" className="container mx-auto">
+        <section className="bg-base-300 rounded-lg p-8 mb-8">
+          <h2 className="mb-4 text-3xl md:text-4xl">Contribution Log</h2>
+          <div className="divide-y">
+            <ContributionLogItem />
+            <ContributionLogItem />
+            <ContributionLogItem />
           </div>
         </section>
       </div>
