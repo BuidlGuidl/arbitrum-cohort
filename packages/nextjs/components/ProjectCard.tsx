@@ -10,7 +10,7 @@ export function ProjectCard({ title, description, builders, githubUrl, liveUrl }
   return (
     <div className="bg-base-200 rounded-bl-lg rounded-br-lg">
       <div className="bg-primary rounded-tl-lg rounded-tr-lg p-2 md:px-4 md:py-3">
-        <h3 className="m-0 text-lg text-primary-content md:text-2xl">{title}</h3>
+        <h3 className="m-0 text-lg font-semibold text-primary-content md:text-2xl">{title}</h3>
       </div>
       <div className="p-4 space-y-4">
         <p className="m-0">{description}</p>
