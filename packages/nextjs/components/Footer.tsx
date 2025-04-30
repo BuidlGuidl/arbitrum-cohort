@@ -31,16 +31,22 @@ export const Footer = () => {
             <div>
               <p className="mt-0 text-lg text-secondary md:text-xl">Social</p>
               <ul className="space-y-2">
-                <li>Twitter</li>
-                <li>Discord</li>
-                <li>Telegram</li>
+                <li>
+                  <Link href="#">Twitter</Link>
+                </li>
+                <li>
+                  <Link href="#">Discord</Link>
+                </li>
+                <li>
+                  <Link href="#">Telegram</Link>
+                </li>
               </ul>
             </div>
           </div>
         </div>
-        <div className="mt-10 flex items-center gap-6 md:mt-0">
+        <div className="mt-10 flex flex-col gap-5 md:mt-0 md:items-center md:flex-row md:gap-6">
           <p className="m-0 flex items-center gap-2">
-            Founded by{" "}
+            Funded by{" "}
             <a href="https://arbitrum.foundation/" target="_blank" rel="noopener noreferrer">
               <Image
                 alt="Arbitrum Logo"
