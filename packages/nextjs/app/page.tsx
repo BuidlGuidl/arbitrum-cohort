@@ -8,7 +8,7 @@ import { projectsData } from "~~/utils/dummyData";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className="px-4 md:px-0">
       <div className="container mx-auto">
         <section className="lg:flex lg:justify-between bg-[#1f324a] rounded-lg p-8 mb-8 w-full relative bg-gradient-to-b from-[#1f324a] to-[#162434]">
           <div className="max-w-3xl text-lg">

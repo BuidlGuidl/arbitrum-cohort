@@ -6,7 +6,7 @@ import Link from "next/link";
  */
 export const Footer = () => {
   return (
-    <div className="mt-8 container mx-auto">
+    <div className="mt-8 container mx-auto px-4 md:px-0">
       <footer className="p-8 mb-8 w-full bg-base-300 rounded-lg">
         <div className="flex flex-col gap-4 md:flex-row md:justify-between">
           <div>
