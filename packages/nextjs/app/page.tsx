@@ -4,11 +4,13 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ContributionLogItem } from "~~/components/ContributionLogItem";
+import { ProjectCard } from "~~/components/ProjectCard";
 import { contributionLogData } from "~~/utils/contributionLogData";
+import { projectsData } from "~~/utils/dummyData";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className="px-4 md:px-0">
       <div className="container mx-auto">
         <section className="lg:flex lg:justify-between bg-[#1f324a] rounded-lg p-8 mb-8 w-full relative bg-gradient-to-b from-[#1f324a] to-[#162434]">
           <div className="max-w-3xl text-lg">
@@ -32,7 +34,23 @@ const Home: NextPage = () => {
           </div>
         </section>
       </div>
-
+      <div id="projects" className="container mx-auto">
+        <section className="bg-base-300 rounded-lg p-8 mb-8">
+          <h2 className="mb-6 text-3xl md:text-4xl">Projects</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {projectsData.map(project => (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                description={project.description}
+                builders={project.builders}
+                githubUrl={project.githubUrl}
+                liveUrl={project.liveUrl}
+              />
+            ))}
+          </div>
+        </section>
+      </div>
       <div id="contributions" className="container mx-auto">
         <section className="bg-base-300 rounded-lg p-8 mb-8">
           <h2 className="mb-4 text-3xl md:text-4xl">Contribution Log</h2>
