@@ -18,13 +18,19 @@ export const Footer = () => {
               <p className="mt-0 text-lg text-secondary md:text-xl">Cohort</p>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/#projects">Projects</Link>
+                  <Link className="link no-underline hover:underline" href="/#projects">
+                    Projects
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/#streams">Streams</Link>
+                  <Link className="link no-underline hover:underline" href="/#streams">
+                    Streams
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/faq">FAQ</Link>
+                  <Link className="link no-underline hover:underline" href="/faq">
+                    FAQ
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -32,13 +38,19 @@ export const Footer = () => {
               <p className="mt-0 text-lg text-secondary md:text-xl">Social</p>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#">Twitter</Link>
+                  <Link className="link no-underline hover:underline" href="#">
+                    Twitter
+                  </Link>
                 </li>
                 <li>
-                  <Link href="#">Discord</Link>
+                  <Link className="link no-underline hover:underline" href="#">
+                    Discord
+                  </Link>
                 </li>
                 <li>
-                  <Link href="#">Telegram</Link>
+                  <Link className="link no-underline hover:underline" href="#">
+                    Telegram
+                  </Link>
                 </li>
               </ul>
             </div>
