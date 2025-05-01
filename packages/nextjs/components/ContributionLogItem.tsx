@@ -14,7 +14,7 @@ type ContributionLogItemProps = {
 
 export function ContributionLogItem({ title, description, date, amount, builder }: ContributionLogItemProps) {
   return (
-    <div className="py-8 flex flex-col items-start gap-4 lg:flex-row lg:gap-8">
+    <div className="py-8 flex flex-col items-start gap-6 lg:flex-row lg:gap-8">
       <BuilderAddress
         className="lg:mt-2 lg:min-w-80"
         address={builder.address}
@@ -22,9 +22,9 @@ export function ContributionLogItem({ title, description, date, amount, builder 
         githubUrl={builder.githubUrl}
       />
       <div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-1 lg:flex-row lg:gap-4 lg:items-center">
           <h3 className="m-0 text-xl lg:text-2xl">{title}</h3>
-          <p className="m-0">{date}</p>
+          <p className="m-0 text-sm lg:text-base">{date}</p>
         </div>
         <p className="mb-0 mt-2">{description}</p>
       </div>

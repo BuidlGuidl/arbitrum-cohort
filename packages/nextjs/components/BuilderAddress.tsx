@@ -32,7 +32,7 @@ export function BuilderAddress({ className, address, twitterUrl, githubUrl }: Bu
   });
 
   return (
-    <div className={clsx("flex items-center gap-4 shrink-0 lg:gap-6", className)}>
+    <div className={clsx("flex flex-wrap items-center gap-4 shrink-0 lg:gap-6", className)}>
       {isEnsNameLoading || isEnsAvatarLoading ? (
         <div className="skeleton w-12 h-12 rounded-md bg-base-200" />
       ) : (
