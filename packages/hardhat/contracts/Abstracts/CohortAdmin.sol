@@ -174,8 +174,8 @@ abstract contract CohortAdmin is CohortBase {
 
         request.completed = true;
 
-        emit WithdrawCompleted(_builder, _requestId, request.amount);
-        emit Withdraw(_builder, request.amount, request.reason);
+        emit WithdrawCompleted(_builder, _requestId, request.amount, request.projectName);
+        emit Withdraw(_builder, request.amount, request.reason, request.projectName);
     }
 
     /**

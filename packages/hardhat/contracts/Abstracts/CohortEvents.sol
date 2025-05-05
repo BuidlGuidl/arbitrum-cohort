@@ -8,7 +8,7 @@ pragma solidity ^0.8.17;
 abstract contract CohortEvents {
     // Core events
     event FundsReceived(address indexed from, uint256 amount);
-    event Withdraw(address indexed to, uint256 amount, string reason);
+    event Withdraw(address indexed to, uint256 amount, string reason, string projectName);
     event AddBuilder(address indexed to, uint256 amount);
     event UpdateBuilder(address indexed to, uint256 amount);
     event AdminAdded(address indexed to);
@@ -19,9 +19,15 @@ abstract contract CohortEvents {
     event ContractLocked(bool locked);
 
     // Withdrawal request events
-    event WithdrawRequested(address indexed builder, uint256 requestId, uint256 amount, string reason);
+    event WithdrawRequested(
+        address indexed builder,
+        uint256 requestId,
+        uint256 amount,
+        string reason,
+        string projectName
+    );
     event WithdrawApproved(address indexed builder, uint256 requestId);
     event WithdrawRejected(address indexed builder, uint256 requestId);
-    event WithdrawCompleted(address indexed builder, uint256 requestId, uint256 amount);
+    event WithdrawCompleted(address indexed builder, uint256 requestId, uint256 amount, string projectName);
     event ApprovalRequirementChanged(address indexed builder, bool requiresApproval);
 }
