@@ -1,33 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderAddress } from "~~/components/BuilderAddress";
+import { BuilderAddress, BuilderAddressProps } from "~~/components/BuilderAddress";
 import { ProgressBar } from "~~/components/ProgressBar";
 
 interface AccordionItemProps {
   defaultOpen?: boolean;
   children: React.ReactNode;
+  builder: BuilderAddressProps;
+  cap: number;
+  unlockedAmount: number;
 }
 
 export function Accordion({ children }: { children: React.ReactNode }) {
   return <div className="space-y-8">{children}</div>;
 }
 
-export function AccordionItem({ defaultOpen = false, children }: AccordionItemProps) {
+export function AccordionItem({ defaultOpen = false, children, builder, cap, unlockedAmount }: AccordionItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  const percentage = Math.floor((unlockedAmount / cap) * 100);
 
   return (
     <div className="overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-4">
         <div>
-          <BuilderAddress
-            address="0xf7e89E45502890381F9242403eA8661fad89Ca79"
-            twitterUrl="https://twitter.com/BuilderDao"
-            githubUrl="https://github.com/BuilderDao"
-          />
+          <BuilderAddress address={builder.address} twitterUrl={builder.twitterUrl} githubUrl={builder.githubUrl} />
         </div>
         <div className="lg:col-span-2">
-          <ProgressBar className="mt-2" value={90} />
+          <ProgressBar className="mt-2" value={percentage} cap={cap} />
         </div>
         <div className="text-right">
           <button onClick={() => setIsOpen(!isOpen)} className="btn btn-primary">

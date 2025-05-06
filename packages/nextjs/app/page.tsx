@@ -8,6 +8,7 @@ import { ContributionLogItem } from "~~/components/ContributionLogItem";
 import { ProjectCard } from "~~/components/ProjectCard";
 import { contributionLogData } from "~~/utils/contributionLogData";
 import { projectsData } from "~~/utils/dummyData";
+import { streamsData } from "~~/utils/streamsData";
 
 const Home: NextPage = () => {
   return (
@@ -65,33 +66,22 @@ const Home: NextPage = () => {
               </div>
             </div>
             <Accordion>
-              <AccordionItem>
-                <div>
-                  <div>200 USDC</div>
+              {streamsData.map(stream => (
+                <AccordionItem
+                  key={stream.id}
+                  builder={stream.builder}
+                  cap={stream.cap}
+                  unlockedAmount={stream.unlockedAmount}
+                >
                   <div>
-                    <h3>Project Title</h3>
-                    <p>Project description</p>
+                    <div>200 USDC</div>
+                    <div>
+                      <h3>Project Title</h3>
+                      <p>Project description</p>
+                    </div>
                   </div>
-                </div>
-              </AccordionItem>
-              <AccordionItem>
-                <div>
-                  <div>200 USDC</div>
-                  <div>
-                    <h3>Project Title</h3>
-                    <p>Project description</p>
-                  </div>
-                </div>
-              </AccordionItem>
-              <AccordionItem>
-                <div>
-                  <div>200 USDC</div>
-                  <div>
-                    <h3>Project Title</h3>
-                    <p>Project description</p>
-                  </div>
-                </div>
-              </AccordionItem>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
         </section>
