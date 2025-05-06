@@ -6,6 +6,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { ContributionLogItem } from "~~/components/ContributionLogItem";
 import { ProjectCard } from "~~/components/ProjectCard";
 import { Stream, StreamItem } from "~~/components/Stream";
+import { StreamContributionItem } from "~~/components/StreamContributionItem";
 import { contributionLogData } from "~~/utils/contributionLogData";
 import { projectsData } from "~~/utils/dummyData";
 import { streamsData } from "~~/utils/streamsData";
@@ -75,20 +76,13 @@ const Home: NextPage = () => {
                 >
                   <div className="px-6 rounded-lg bg-base-100 divide-y">
                     {contributionLogData.map(item => (
-                      <div key={item.id} className="py-6 grid grid-cols-1 gap-6 lg:grid-cols-6">
-                        <div>
-                          <div className="mt-2 px-2 py-1 inline-block bg-primary text-primary-content rounded-lg text-lg">
-                            {item.amount}
-                          </div>
-                        </div>
-                        <div className="lg:col-span-5">
-                          <div className="flex flex-col gap-1 lg:flex-row lg:gap-4 lg:items-center">
-                            <h3 className="m-0 text-xl lg:text-2xl">{item.title}</h3>
-                            <p className="m-0 text-sm lg:text-base">{item.date}</p>
-                          </div>
-                          <p className="mb-0 mt-2">{item.description}</p>
-                        </div>
-                      </div>
+                      <StreamContributionItem
+                        key={item.id}
+                        title={item.title}
+                        description={item.description}
+                        date={item.date}
+                        amount={item.amount}
+                      />
                     ))}
                   </div>
                 </StreamItem>
