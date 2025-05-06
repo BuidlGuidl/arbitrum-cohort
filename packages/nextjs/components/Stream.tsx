@@ -36,7 +36,7 @@ export function StreamItem({ defaultOpen = false, children, builder, cap, unlock
           </button>
         </div>
       </div>
-      {isOpen && <div className="p-4">{children}</div>}
+      {isOpen && <div className="mt-8">{children}</div>}
     </div>
   );
 }
