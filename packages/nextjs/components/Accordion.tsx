@@ -27,7 +27,7 @@ export function AccordionItem({ defaultOpen = false, children }: AccordionItemPr
           />
         </div>
         <div className="lg:col-span-2">
-          <ProgressBar className="mt-2" value={50} />
+          <ProgressBar className="mt-2" value={90} />
         </div>
         <div className="text-right">
           <button onClick={() => setIsOpen(!isOpen)} className="btn btn-primary">

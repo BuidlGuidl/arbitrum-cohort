@@ -14,6 +14,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, className =
           <span className="text-primary-content text-sm font-medium">{value}%</span>
         </div>
       </div>
+      <p className="absolute inset-0 flex items-center justify-end pr-4 text-primary-content text-sm font-medium">
+        1000 USDC
+      </p>
     </div>
   );
 };
