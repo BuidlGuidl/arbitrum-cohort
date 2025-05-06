@@ -3,9 +3,9 @@
 import Link from "next/link";
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { Accordion, AccordionItem } from "~~/components/Accordion";
 import { ContributionLogItem } from "~~/components/ContributionLogItem";
 import { ProjectCard } from "~~/components/ProjectCard";
+import { Stream, StreamItem } from "~~/components/Stream";
 import { contributionLogData } from "~~/utils/contributionLogData";
 import { projectsData } from "~~/utils/dummyData";
 import { streamsData } from "~~/utils/streamsData";
@@ -65,9 +65,9 @@ const Home: NextPage = () => {
                 <p className="mt-0">Stream</p>
               </div>
             </div>
-            <Accordion>
+            <Stream>
               {streamsData.map(stream => (
-                <AccordionItem
+                <StreamItem
                   key={stream.id}
                   builder={stream.builder}
                   cap={stream.cap}
@@ -80,9 +80,9 @@ const Home: NextPage = () => {
                       <p>Project description</p>
                     </div>
                   </div>
-                </AccordionItem>
+                </StreamItem>
               ))}
-            </Accordion>
+            </Stream>
           </div>
         </section>
       </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BuilderAddress, BuilderAddressProps } from "~~/components/BuilderAddress";
 import { ProgressBar } from "~~/components/ProgressBar";
 
-interface AccordionItemProps {
+interface StreamItemProps {
   defaultOpen?: boolean;
   children: React.ReactNode;
   builder: BuilderAddressProps;
@@ -12,11 +12,11 @@ interface AccordionItemProps {
   unlockedAmount: number;
 }
 
-export function Accordion({ children }: { children: React.ReactNode }) {
+export function Stream({ children }: { children: React.ReactNode }) {
   return <div className="space-y-8">{children}</div>;
 }
 
-export function AccordionItem({ defaultOpen = false, children, builder, cap, unlockedAmount }: AccordionItemProps) {
+export function StreamItem({ defaultOpen = false, children, builder, cap, unlockedAmount }: StreamItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const percentage = Math.floor((unlockedAmount / cap) * 100);
