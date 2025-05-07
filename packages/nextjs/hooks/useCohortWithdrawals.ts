@@ -7,6 +7,7 @@ type Withdrawal = {
   builder: `0x${string}`;
   amount: bigint;
   timestamp: number;
+  projectName: string;
 };
 
 type WithdrawalsData = { cohortWithdrawals: { items: Withdrawal[] } };
@@ -21,6 +22,7 @@ const fetchWithdrawals = async () => {
           amount
           timestamp
           id
+          projectName
         }
       }
     }

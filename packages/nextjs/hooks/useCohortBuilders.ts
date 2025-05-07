@@ -17,7 +17,6 @@ const fetchBuilders = async () => {
     query Builders {
       cohortBuilders(orderBy: "timestamp", orderDirection: "desc") {
         items {
-          id
           ens
           address
         }

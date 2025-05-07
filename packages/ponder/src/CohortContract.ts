@@ -1,7 +1,11 @@
 import { ponder } from "ponder:registry";
 import { formatEther, createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
-import { cohortBuilder, cohortWithdrawal } from "ponder:schema";
+import {
+  cohortBuilder,
+  cohortWithdrawal,
+  cohortWithdrawalRequest,
+} from "ponder:schema";
 
 // Create a viem client for the mainnet
 const clientMainnet = createPublicClient({
@@ -23,10 +27,8 @@ ponder.on("Cohort:AddBuilder", async ({ event, context }) => {
   await context.db
     .insert(cohortBuilder)
     .values({
-      id: `${event.args.to}-${event.log.address}`,
       address: event.args.to,
       amount: parseFloat(formatEther(event.args.amount)),
-      cohortContractAddress: event.log.address,
       timestamp: event.block.timestamp,
       ens: ensName,
     })
@@ -45,19 +47,45 @@ ponder.on("Cohort:UpdateBuilder", async ({ event, context }) => {
 });
 
 ponder.on("Cohort:Withdraw", async ({ event, context }) => {
-  const cohortContractAddress = event.log.address;
-
   await context.db.insert(cohortWithdrawal).values({
     id: event.log.id,
     builder: event.args.to,
-    cohortBuilder: `${event.args.to}-${cohortContractAddress}`,
     amount: parseFloat(formatEther(event.args.amount)),
-    cohortContractAddress,
     reason: event.args.reason,
     timestamp: event.block.timestamp,
+    projectName: event.args.projectName,
   });
+});
 
-  const balance = await context.client.getBalance({
-    address: cohortContractAddress,
+ponder.on("Cohort:WithdrawRequested", async ({ event, context }) => {
+  await context.db.insert(cohortWithdrawalRequest).values({
+    id: `${event.args.builder}-${event.args.requestId}`,
+    requestId: event.args.requestId,
+    builder: event.args.builder,
+    amount: parseFloat(formatEther(event.args.amount)),
+    reason: event.args.reason,
+    timestamp: event.block.timestamp,
+    projectName: event.args.projectName,
+    status: "pending",
   });
+});
+
+ponder.on("Cohort:WithdrawApproved", async ({ event, context }) => {
+  await context.db
+    .update(cohortWithdrawalRequest, {
+      id: `${event.args.builder}-${event.args.requestId}`,
+    })
+    .set({
+      status: "approved",
+    });
+});
+
+ponder.on("Cohort:WithdrawRejected", async ({ event, context }) => {
+  await context.db
+    .update(cohortWithdrawalRequest, {
+      id: `${event.args.builder}-${event.args.requestId}`,
+    })
+    .set({
+      status: "rejected",
+    });
 });
