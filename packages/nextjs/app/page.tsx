@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         <section className="lg:flex lg:justify-between bg-[#1f324a] rounded-lg p-8 mb-8 w-full relative bg-gradient-to-b from-[#1f324a] to-[#162434]">
           <div className="max-w-3xl text-lg">
             <h1 className="text-4xl md:text-6xl/[1.2]">
-              Welcome to <br className="hidden md:block" /> Arbitrum&apos;s Cohort
+              Welcome to <br className="hidden md:block" /> Arbitrum Cohort
             </h1>
             <p className="mt-8">
               A collaborative initiative designed for building dapps and tools on the Arbitrum ecosystem.
