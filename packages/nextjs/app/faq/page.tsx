@@ -33,7 +33,7 @@ const faqContent = [
 
 export default function FaqPage() {
   return (
-    <div className="container px-4 md:px-0 mx-auto">
+    <div className="container px-4 md:px-0 mx-auto pb-8">
       <div className="rounded-2xl p-4 md:p-8 mb-8 w-full bg-[#d9d9d9] bg-[url('/bg-grid.svg')] bg-[center_top_-0.5rem]">
         <h1 className="text-4xl md:text-6xl/[1.2] text-primary-content lg:mb-28">Frequently Asked Questions</h1>
       </div>
