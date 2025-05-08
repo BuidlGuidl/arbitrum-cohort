@@ -39,11 +39,9 @@ ponder.on("Cohort:AddBuilder", async ({ event, context }) => {
 });
 
 ponder.on("Cohort:UpdateBuilder", async ({ event, context }) => {
-  await context.db
-    .update(cohortBuilder, { id: `${event.args.to}-${event.log.address}` })
-    .set({
-      amount: parseFloat(formatEther(event.args.amount)),
-    });
+  await context.db.update(cohortBuilder, { address: event.args.to }).set({
+    amount: parseFloat(formatEther(event.args.amount)),
+  });
 });
 
 ponder.on("Cohort:Withdraw", async ({ event, context }) => {
