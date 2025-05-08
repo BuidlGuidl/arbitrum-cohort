@@ -1,21 +1,21 @@
 const faqContent = [
   {
-    title: "What is the Arbitrum Cohort?",
+    title: "What is the Arbitrum Builders Cohort?",
     content:
-      "The Arbitrum Cohort is a collaborative program by Arbitrum and BuidlGuidl that supports a handpicked group of high-impact builders. Its goal is to accelerate the development of dapps and tools on the Arbitrum ecosystem by providing targeted support, mentorship, and monthly on-chain funding streams.",
+      "The Arbitrum Builders Cohort is a collaborative program by Arbitrum and BuidlGuidl that supports a handpicked group of high-impact builders. Its goal is to accelerate the development of dapps and tools on the Arbitrum ecosystem by providing targeted support, mentorship, and monthly on-chain funding streams.",
   },
   {
-    title: "How does the Arbitrum Cohort work?",
+    title: "How does the Arbitrum Builders Cohort work?",
     content:
       "Selected developers are invited to join the cohort and receive monthly funding streams for their ongoing contributions. The program is not a public task board, it is a place for builders to contribute and learn. It highlights the work of its members, tracks progress through public updates and contribution logs, and coordinates projects directly with participants.",
   },
   {
-    title: "What are the core values of the Arbitrum Cohort?",
+    title: "What are the core values of the Arbitrum Builders Cohort?",
     content:
       "The cohort values quality, transparency, and collaboration. Builders are expected to focus on impactful, open-source projects, maintain accountability through regular updates, and contribute to a culture of shared learning and continuous improvement.",
   },
   {
-    title: "How can I join the Arbitrum Cohort?",
+    title: "How can I join the Arbitrum Builders Cohort?",
     content:
       "There is no open application process. Developers are handpicked based on their skills, experience, and past contributions to the ecosystem. Referrals and direct invitations are the primary ways to join, with the core team reviewing and selecting participants.",
   },
@@ -27,7 +27,7 @@ const faqContent = [
   {
     title: "Who is funding this initiative?",
     content:
-      "The Arbitrum Cohort is funded by the Arbitrum Foundation, with administration and support provided by BuidlGuidl. The program is designed to maximize impact and visibility for both the builders and the broader Arbitrum ecosystem.",
+      "The Arbitrum Builders Cohort is funded by the Arbitrum Foundation, with administration and support provided by BuidlGuidl. The program is designed to maximize impact and visibility for both the builders and the broader Arbitrum ecosystem.",
   },
 ];
 

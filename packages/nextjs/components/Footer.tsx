@@ -12,7 +12,7 @@ export const Footer = () => {
       <footer className="p-8 mb-8 w-full bg-base-300 rounded-lg">
         <div className="flex flex-col gap-4 md:flex-row md:justify-between">
           <div>
-            <p className="m-0 text-2xl lg:text-4xl">Arbitrum Cohort</p>
+            <p className="m-0 text-2xl lg:text-4xl">Arbitrum Builders Cohort</p>
             <p>A place for builders to contribute and learn.</p>
           </div>
           <div className="flex gap-8 md:gap-12 lg:mr-20">
