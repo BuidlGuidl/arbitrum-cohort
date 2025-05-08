@@ -17,13 +17,22 @@ const Home: NextPage = () => {
             <h1 className="text-4xl md:text-6xl/[1.2]">
               Welcome to <br className="hidden md:block" /> Arbitrum&apos;s Cohort
             </h1>
-            <p className="mt-8">A place to contribute and learn.</p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut metus eget ipsum dapibus imperdiet.
-              Phasellus varius enim. In est ornare.
+            <p className="mt-8">
+              A collaborative initiative designed for building dapps and tools on the Arbitrum ecosystem.
             </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p>Focus areas: DeFi projects, MEV solvers, AI agents and TEEs, DAO transparency tools</p>
+            <p>
+              <span className="font-bold">A place for builders to contribute and learn</span>, where a handpicked group
+              of high-impact builders receives targeted support, mentorship, and funding for their contributions through
+              monthly on-chain streams.
+            </p>
+            <p>
+              Progress is tracked transparently through public updates, contribution logs, and on-chain activity,
+              encouraging a culture of accountability and shared learning.
+            </p>
+            <p>
+              <span className="font-bold">Focus areas:</span> DeFi projects, MEV solvers, AI agents and TEEs (Trusted
+              Execution Environments), DAO transparency tools.
+            </p>
           </div>
           <div className="mt-6 lg:mt-0 lg:self-end">
             <Link href="/faq" className="btn btn-primary btn-lg py-2 px-4 leading-snug text-left">
