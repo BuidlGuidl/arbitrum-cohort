@@ -23,17 +23,20 @@ export function StreamItem({ defaultOpen = false, children, builder, cap, unlock
 
   return (
     <div className="overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
         <div>
           <BuilderAddress address={builder.address} twitterUrl={builder.twitterUrl} githubUrl={builder.githubUrl} />
         </div>
-        <div className="lg:col-span-2">
-          <ProgressBar className="mt-2" value={percentage} cap={cap} />
-        </div>
-        <div className="text-right">
-          <button onClick={() => setIsOpen(!isOpen)} className="btn btn-primary">
-            {isOpen ? "Hide Work" : "View Work"}
-          </button>
+        <div className="lg:col-span-3">
+          <div className="mt-2 flex items-center gap-2 md:gap-6">
+            <ProgressBar value={percentage} cap={cap} />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="btn btn-primary btn-xs !min-h-8 !h-8 lg:btn-md lg:!min-h-10 lg:!h-10"
+            >
+              {isOpen ? "Hide Work" : "View Work"}
+            </button>
+          </div>
         </div>
       </div>
       {isOpen && <div className="mt-8">{children}</div>}

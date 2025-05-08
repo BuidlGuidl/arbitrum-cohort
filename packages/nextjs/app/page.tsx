@@ -58,7 +58,7 @@ const Home: NextPage = () => {
         <section className="bg-base-300 rounded-lg p-8 mb-8">
           <h2 className="mb-4 text-3xl md:text-4xl">Streams</h2>
           <div className="mt-12">
-            <div className="mb-2 grid grid-cols-1 lg:grid-cols-4">
+            <div className="hidden mb-2 lg:grid lg:grid-cols-4">
               <div>
                 <p className="mt-0">Builder</p>
               </div>
