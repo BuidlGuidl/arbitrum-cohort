@@ -2,12 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 
 type Builder = {
-  id: string;
-  text: string;
-  setterId: `0x${string}`;
-  premium: boolean;
-  value: bigint;
-  timestamp: number;
+  ens: string;
+  address: `0x${string}`;
+  amount: bigint;
 };
 
 type BuildersData = { cohortBuilders: { items: Builder[] } };
@@ -19,6 +16,7 @@ const fetchBuilders = async () => {
         items {
           ens
           address
+          amount
         }
       }
     }
