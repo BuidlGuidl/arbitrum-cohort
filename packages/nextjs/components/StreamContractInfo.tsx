@@ -14,7 +14,7 @@ export const StreamContractInfo = () => {
       </div>
       <div className="p-8 bg-base-300 rounded-b-lg lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg">
         <p className="mt-0 text-2xl lg:text-3xl">Owner</p>
-        <ContractAddress address="0x630ddBE2a248e6F483FD021C13617421b476aE92" />
+        <ContractAddress address="0x6A4E5ed62d3827128Dbd70c5bDe25C0e6c6aA537" />
       </div>
     </div>
   );
