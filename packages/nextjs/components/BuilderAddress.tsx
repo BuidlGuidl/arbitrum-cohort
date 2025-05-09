@@ -5,7 +5,7 @@ import { getAddress, isAddress } from "viem";
 import { normalize } from "viem/ens";
 import { useEnsAvatar, useEnsName } from "wagmi";
 
-type BuilderAddressProps = {
+export type BuilderAddressProps = {
   className?: string;
   address: string;
   twitterUrl?: string;

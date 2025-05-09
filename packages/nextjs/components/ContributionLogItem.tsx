@@ -22,7 +22,7 @@ export function ContributionLogItem({ title, description, date, amount, builder 
         githubUrl={builder.githubUrl}
       />
       <div>
-        <div className="flex flex-col gap-1 lg:flex-row lg:gap-4 lg:items-center">
+        <div className="flex flex-col gap-1 lg:flex-row lg:gap-4 lg:items-baseline">
           <h3 className="m-0 text-xl lg:text-2xl">{title}</h3>
           <p className="m-0 text-sm lg:text-base">{date}</p>
         </div>

@@ -5,8 +5,11 @@ import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ContributionLogItem } from "~~/components/ContributionLogItem";
 import { ProjectCard } from "~~/components/ProjectCard";
+import { Stream, StreamItem } from "~~/components/Stream";
+import { StreamContributionItem } from "~~/components/StreamContributionItem";
 import { contributionLogData } from "~~/utils/contributionLogData";
 import { projectsData } from "~~/utils/dummyData";
+import { streamsData } from "~~/utils/streamsData";
 
 const Home: NextPage = () => {
   return (
@@ -48,6 +51,43 @@ const Home: NextPage = () => {
                 liveUrl={project.liveUrl}
               />
             ))}
+          </div>
+        </section>
+      </div>
+      <div id="streams" className="container mx-auto">
+        <section className="bg-base-300 rounded-lg p-8 mb-8">
+          <h2 className="mb-4 text-3xl md:text-4xl">Streams</h2>
+          <div className="mt-12">
+            <div className="hidden mb-2 lg:grid lg:grid-cols-4">
+              <div>
+                <p className="mt-0">Builder</p>
+              </div>
+              <div className="lg:col-span-2">
+                <p className="mt-0">Stream</p>
+              </div>
+            </div>
+            <Stream>
+              {streamsData.map(stream => (
+                <StreamItem
+                  key={stream.id}
+                  builder={stream.builder}
+                  cap={stream.cap}
+                  unlockedAmount={stream.unlockedAmount}
+                >
+                  <div className="px-6 rounded-lg bg-base-100 divide-y">
+                    {contributionLogData.map(item => (
+                      <StreamContributionItem
+                        key={item.id}
+                        title={item.title}
+                        description={item.description}
+                        date={item.date}
+                        amount={item.amount}
+                      />
+                    ))}
+                  </div>
+                </StreamItem>
+              ))}
+            </Stream>
           </div>
         </section>
       </div>
