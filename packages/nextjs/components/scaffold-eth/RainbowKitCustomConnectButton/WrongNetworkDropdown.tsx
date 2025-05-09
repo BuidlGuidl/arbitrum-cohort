@@ -1,6 +1,6 @@
 import { NetworkOptions } from "./NetworkOptions";
 import { useDisconnect } from "wagmi";
-import { ArrowLeftOnRectangleIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftEndOnRectangleIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 
 export const WrongNetworkDropdown = () => {
   const { disconnect } = useDisconnect();
@@ -11,10 +11,7 @@ export const WrongNetworkDropdown = () => {
         <span>Wrong network</span>
         <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0" />
       </label>
-      <ul
-        tabIndex={0}
-        className="dropdown-content menu p-2 mt-1 shadow-center shadow-accent bg-base-200 rounded-box gap-1"
-      >
+      <ul tabIndex={0} className="dropdown-content menu p-2 mt-1 bg-base-200 rounded-lg gap-1 border border-gray-500">
         <NetworkOptions />
         <li>
           <button
@@ -22,7 +19,7 @@ export const WrongNetworkDropdown = () => {
             type="button"
             onClick={() => disconnect()}
           >
-            <ArrowLeftOnRectangleIcon className="h-6 w-4 ml-2 sm:ml-0" />
+            <ArrowLeftEndOnRectangleIcon className="h-6 w-4 ml-2 sm:ml-0" />
             <span>Disconnect</span>
           </button>
         </li>
