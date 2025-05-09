@@ -21,7 +21,7 @@ export const menuLinks: HeaderMenuLink[] = [
   },
   {
     label: "Builders",
-    href: "/#streams",
+    href: "/#builders",
   },
   {
     label: "Contributions",

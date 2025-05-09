@@ -63,9 +63,9 @@ const Home: NextPage = () => {
           </div>
         </section>
       </div>
-      <div id="streams" className="container mx-auto">
+      <div id="builders" className="container mx-auto">
         <section className="bg-base-300 rounded-lg p-8 mb-8">
-          <h2 className="mb-4 text-3xl md:text-4xl">Streams</h2>
+          <h2 className="mb-4 text-3xl md:text-4xl">Builders</h2>
           <div className="mt-12">
             <div className="hidden mb-2 lg:grid lg:grid-cols-4">
               <div>
