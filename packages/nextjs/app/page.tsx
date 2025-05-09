@@ -18,15 +18,24 @@ const Home: NextPage = () => {
         <section className="lg:flex lg:justify-between bg-[#1f324a] rounded-lg p-8 mb-8 w-full relative bg-gradient-to-b from-[#1f324a] to-[#162434]">
           <div className="max-w-3xl text-lg">
             <h1 className="text-4xl md:text-6xl/[1.2]">
-              Welcome to <br className="hidden md:block" /> Arbitrum&apos;s Cohort
+              Welcome to <br className="hidden md:block" /> Arbitrum Builders Cohort
             </h1>
-            <p className="mt-8">A place to contribute and learn.</p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut metus eget ipsum dapibus imperdiet.
-              Phasellus varius enim. In est ornare.
+            <p className="mt-8">
+              A collaborative initiative designed for building dapps and tools on the Arbitrum ecosystem.
             </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p>Focus areas: DeFi projects, MEV solvers, AI agents and TEEs, DAO transparency tools</p>
+            <p>
+              <span className="font-bold">A place for builders to contribute and learn</span>, where a handpicked group
+              of high-impact builders receives targeted support, mentorship, and funding for their contributions through
+              monthly on-chain streams.
+            </p>
+            <p>
+              Progress is tracked transparently through public updates, contribution logs, and on-chain activity,
+              encouraging a culture of accountability and shared learning.
+            </p>
+            <p>
+              <span className="font-bold">Focus areas:</span> DeFi projects, MEV solvers, AI agents and TEEs (Trusted
+              Execution Environments), DAO transparency tools.
+            </p>
           </div>
           <div className="mt-6 lg:mt-0 lg:self-end">
             <Link href="/faq" className="btn btn-primary btn-lg py-2 px-4 leading-snug text-left">
@@ -54,9 +63,9 @@ const Home: NextPage = () => {
           </div>
         </section>
       </div>
-      <div id="streams" className="container mx-auto">
+      <div id="builders" className="container mx-auto">
         <section className="bg-base-300 rounded-lg p-8 mb-8">
-          <h2 className="mb-4 text-3xl md:text-4xl">Streams</h2>
+          <h2 className="mb-4 text-3xl md:text-4xl">Builders</h2>
           <div className="mt-12">
             <div className="hidden mb-2 lg:grid lg:grid-cols-4">
               <div>

@@ -25,8 +25,8 @@ const deployCohort: DeployFunction = async function (hre: HardhatRuntimeEnvironm
   const ERC20Mock = await get("ERC20Mock");
   const ERC20MockAddress = ERC20Mock.address;
 
-  const name = "Arbitrum Cohort";
-  const description = "Arbitrum cohort contract";
+  const name = "Arbitrum Builders Cohort";
+  const description = "Arbitrum Builders Cohort contract";
   const cycle = 30 * 24 * 60 * 60; // 30 days
   const requiresApproval = true;
 
