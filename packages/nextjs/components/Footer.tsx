@@ -25,8 +25,8 @@ export const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="link no-underline hover:underline" href="/#streams">
-                    Streams
+                  <Link className="link no-underline hover:underline" href="/#builders">
+                    Builders
                   </Link>
                 </li>
                 <li>
