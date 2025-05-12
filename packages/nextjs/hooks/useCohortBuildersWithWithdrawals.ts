@@ -77,9 +77,11 @@ export const useCohortBuildersWithWithdrawals = () => {
       allBuildersContractData &&
       allBuildersContractData.length > 0
     ) {
+      type BuilderContractData = (typeof allBuildersContractData)[0];
       const fetchedBuilderList = cohortBuildersData.cohortBuilders.items.map((builder: Builder) => {
         const builderFromContract = allBuildersContractData.find(
-          builderContract => builderContract.builderAddress.toLowerCase() === builder.address.toLowerCase(),
+          (builderContract: BuilderContractData) =>
+            builderContract.builderAddress.toLowerCase() === builder.address.toLowerCase(),
         );
         if (builderFromContract) {
           return {
