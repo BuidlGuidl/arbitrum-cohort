@@ -2,14 +2,16 @@ type StreamContributionItemProps = {
   title: string;
   description: string;
   date: string;
-  amount: string;
+  amount: number;
 };
 
 export function StreamContributionItem({ title, description, date, amount }: StreamContributionItemProps) {
   return (
     <div className="py-6 grid grid-cols-1 gap-6 lg:grid-cols-6">
       <div>
-        <div className="mt-2 px-2 py-1 inline-block bg-primary text-primary-content rounded-lg text-lg">{amount}</div>
+        <div className="mt-2 px-2 py-1 inline-block bg-primary text-primary-content rounded-lg text-lg">
+          {amount} USDC
+        </div>
       </div>
       <div className="lg:col-span-5">
         <div className="flex flex-col gap-1 lg:flex-row lg:gap-4 lg:items-baseline">

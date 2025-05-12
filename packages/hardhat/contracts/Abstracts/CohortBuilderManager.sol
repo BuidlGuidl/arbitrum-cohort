@@ -8,20 +8,24 @@ import "./CohortAdmin.sol";
  * @dev Contract containing functionality for managing builders in a Cohort
  */
 abstract contract CohortBuilderManager is CohortAdmin {
+    struct BuilderData {
+        address builderAddress;
+        uint256 cap;
+        uint256 unlockedAmount;
+    }
+
     /**
      * @dev Get all builders' data
      * @param _builders Array of builder addresses
-     * @return Array of BuilderStreamInfo for each builder
+     * @return Array of BuilderData for each builder
      */
-    function allBuildersData(address[] calldata _builders) public view returns (BuilderStreamInfo[] memory) {
+    function allBuildersData(address[] calldata _builders) public view returns (BuilderData[] memory) {
         uint256 builderLength = _builders.length;
-        BuilderStreamInfo[] memory result = new BuilderStreamInfo[](builderLength);
-        for (uint256 i = 0; i < builderLength; ) {
+        BuilderData[] memory result = new BuilderData[](builderLength);
+        for (uint256 i = 0; i < builderLength; i++) {
             address builderAddress = _builders[i];
-            result[i] = streamingBuilders[builderAddress];
-            unchecked {
-                ++i;
-            }
+            BuilderStreamInfo storage builderStream = streamingBuilders[builderAddress];
+            result[i] = BuilderData(builderAddress, builderStream.cap, unlockedBuilderAmount(builderAddress));
         }
         return result;
     }

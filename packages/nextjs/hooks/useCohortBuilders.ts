@@ -4,7 +4,7 @@ import { gql, request } from "graphql-request";
 type Builder = {
   ens: string;
   address: `0x${string}`;
-  amount: bigint;
+  amount: number;
 };
 
 type BuildersData = { cohortBuilders: { items: Builder[] } };

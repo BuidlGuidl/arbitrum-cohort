@@ -1,5 +1,5 @@
 import { ponder } from "ponder:registry";
-import { formatEther, createPublicClient, http } from "viem";
+import { formatUnits, createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
 import {
   cohortBuilder,
@@ -28,19 +28,19 @@ ponder.on("Cohort:AddBuilder", async ({ event, context }) => {
     .insert(cohortBuilder)
     .values({
       address: event.args.to,
-      amount: parseFloat(formatEther(event.args.amount)),
+      amount: parseFloat(formatUnits(event.args.amount, 6)),
       timestamp: event.block.timestamp,
       ens: ensName,
     })
     .onConflictDoUpdate(() => ({
-      amount: parseFloat(formatEther(event.args.amount)),
+      amount: parseFloat(formatUnits(event.args.amount, 6)),
       timestamp: event.block.timestamp,
     }));
 });
 
 ponder.on("Cohort:UpdateBuilder", async ({ event, context }) => {
   await context.db.update(cohortBuilder, { address: event.args.to }).set({
-    amount: parseFloat(formatEther(event.args.amount)),
+    amount: parseFloat(formatUnits(event.args.amount, 6)),
   });
 });
 
@@ -48,7 +48,7 @@ ponder.on("Cohort:Withdraw", async ({ event, context }) => {
   await context.db.insert(cohortWithdrawal).values({
     id: event.log.id,
     builder: event.args.to,
-    amount: parseFloat(formatEther(event.args.amount)),
+    amount: parseFloat(formatUnits(event.args.amount, 6)),
     reason: event.args.reason,
     timestamp: event.block.timestamp,
     projectName: event.args.projectName,
@@ -60,7 +60,7 @@ ponder.on("Cohort:WithdrawRequested", async ({ event, context }) => {
     id: `${event.args.builder}-${event.args.requestId}`,
     requestId: event.args.requestId,
     builder: event.args.builder,
-    amount: parseFloat(formatEther(event.args.amount)),
+    amount: parseFloat(formatUnits(event.args.amount, 6)),
     reason: event.args.reason,
     timestamp: event.block.timestamp,
     projectName: event.args.projectName,

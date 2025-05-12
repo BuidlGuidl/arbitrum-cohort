@@ -7,11 +7,15 @@ import { ContributionLogItem } from "~~/components/ContributionLogItem";
 import { ProjectCard } from "~~/components/ProjectCard";
 import { Stream, StreamItem } from "~~/components/Stream";
 import { StreamContributionItem } from "~~/components/StreamContributionItem";
-import { contributionLogData } from "~~/utils/contributionLogData";
+import { useCohortBuildersWithWithdrawals } from "~~/hooks/useCohortBuildersWithWithdrawals";
+import { useCohortWithdrawals } from "~~/hooks/useCohortWithdrawals";
 import { projectsData } from "~~/utils/dummyData";
-import { streamsData } from "~~/utils/streamsData";
 
 const Home: NextPage = () => {
+  const { data: cohortWithdrawalsData, isLoading: isLoadingCohortWithdrawals } = useCohortWithdrawals();
+  const { data: buildersWithWithdrawals, isLoading: isLoadingBuildersWithWithdrawals } =
+    useCohortBuildersWithWithdrawals();
+
   return (
     <div className="px-4 md:px-0">
       <div className="container mx-auto">
@@ -76,26 +80,35 @@ const Home: NextPage = () => {
               </div>
             </div>
             <Stream>
-              {streamsData.map(stream => (
-                <StreamItem
-                  key={stream.id}
-                  builder={stream.builder}
-                  cap={stream.cap}
-                  unlockedAmount={stream.unlockedAmount}
-                >
-                  <div className="px-6 rounded-lg bg-base-100 divide-y">
-                    {contributionLogData.map(item => (
-                      <StreamContributionItem
-                        key={item.id}
-                        title={item.title}
-                        description={item.description}
-                        date={item.date}
-                        amount={item.amount}
-                      />
-                    ))}
-                  </div>
-                </StreamItem>
-              ))}
+              {isLoadingBuildersWithWithdrawals ? (
+                <span className="loading loading-spinner loading-lg"></span>
+              ) : (
+                buildersWithWithdrawals.map(builder => (
+                  <StreamItem
+                    key={builder.address}
+                    builder={{
+                      address: builder.address,
+                      twitterUrl: "https://x.com/hunterhchang",
+                      githubUrl: "https://github.com/ChangoMan",
+                    }}
+                    cap={builder.amount}
+                    unlockedAmount={builder.unlockedAmount || 0}
+                    viewWork={builder.cohortWithdrawals.items.length > 0}
+                  >
+                    <div className="px-6 rounded-lg bg-base-100 divide-y">
+                      {builder.cohortWithdrawals.items.map(item => (
+                        <StreamContributionItem
+                          key={item.timestamp}
+                          title={item.projectName}
+                          description={item.reason}
+                          date={new Date(item.timestamp * 1000).toLocaleDateString()} // Convert timestamp to date string
+                          amount={item.amount}
+                        />
+                      ))}
+                    </div>
+                  </StreamItem>
+                ))
+              )}
             </Stream>
           </div>
         </section>
@@ -104,16 +117,24 @@ const Home: NextPage = () => {
         <section className="bg-base-300 rounded-lg p-8 mb-8">
           <h2 className="mb-4 text-3xl md:text-4xl">Contribution Log</h2>
           <div className="divide-y">
-            {contributionLogData.map(item => (
-              <ContributionLogItem
-                key={item.id}
-                title={item.title}
-                description={item.description}
-                date={item.date}
-                amount={item.amount}
-                builder={item.builder}
-              />
-            ))}
+            {isLoadingCohortWithdrawals ? (
+              <span className="loading loading-spinner loading-lg"></span>
+            ) : (
+              cohortWithdrawalsData.map(item => (
+                <ContributionLogItem
+                  key={item.id}
+                  title={item.projectName}
+                  description={item.reason}
+                  date={new Date(item.timestamp * 1000).toLocaleDateString()}
+                  amount={item.amount}
+                  builder={{
+                    address: item.builder,
+                    twitterUrl: "https://x.com/hunterhchang",
+                    githubUrl: "https://github.com/ChangoMan",
+                  }}
+                />
+              ))
+            )}
           </div>
         </section>
       </div>

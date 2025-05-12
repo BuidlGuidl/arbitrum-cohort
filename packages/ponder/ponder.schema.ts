@@ -7,6 +7,11 @@ export const cohortBuilder = onchainTable("cohort_builder", (t) => ({
   ens: t.text(),
 }));
 
+export const buildersRelations = relations(cohortBuilder, ({ many }) => ({
+  cohortWithdrawals: many(cohortWithdrawal),
+  cohortWithdrawalRequests: many(cohortWithdrawalRequest),
+}));
+
 export const cohortWithdrawal = onchainTable("cohort_withdrawal", (t) => ({
   id: t.text().primaryKey(),
   builder: t.hex().notNull(),

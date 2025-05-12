@@ -5,7 +5,7 @@ type Withdrawal = {
   id: string;
   reason: string;
   builder: `0x${string}`;
-  amount: bigint;
+  amount: number;
   timestamp: number;
   projectName: string;
 };

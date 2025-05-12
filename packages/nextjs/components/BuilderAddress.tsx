@@ -49,7 +49,7 @@ export function BuilderAddress({ className, address, twitterUrl, githubUrl }: Bu
       {isEnsNameLoading ? (
         <div className="skeleton w-32 h-6 rounded-md bg-base-200" />
       ) : (
-        <p className="m-0 text-lg">{ens}</p>
+        <p className="m-0 text-lg">{ens || checkSumAddress?.slice(0, 6) + "..." + checkSumAddress?.slice(-4)}</p>
       )}
       <div className="flex items-center gap-2 shrink-0">
         {twitterUrl && (

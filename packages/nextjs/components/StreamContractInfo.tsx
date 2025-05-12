@@ -1,20 +1,26 @@
+import { formatUnits } from "viem";
 import { ContractAddress } from "~~/components/ContractAddress";
+import { useDeployedContractInfo, useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 export const StreamContractInfo = () => {
+  const { data: contractInfo, isLoading: isLoadingContractInfo } = useDeployedContractInfo({ contractName: "Cohort" });
+  // TODO: change to use USDC on production
+  const { data: balance } = useScaffoldReadContract({
+    contractName: "ERC20Mock",
+    functionName: "balanceOf",
+    args: [contractInfo?.address],
+  });
+
   return (
-    <div className="mb-8 w-full grid grid-cols-1 lg:grid-cols-2">
+    <div className="mb-8 w-full grid grid-cols-1">
       <div className="p-8 bg-[#1f324a] rounded-t-lg lg:rounded-tr-none lg:rounded-tl-lg lg:rounded-bl-lg">
         <p className="mt-0 text-2xl lg:text-3xl">Stream Contract</p>
         <div className="flex items-center gap-6">
-          <ContractAddress address="0x495634676f6626A97Cc178FfA01EE3E99E2655c6" />
+          {!isLoadingContractInfo && contractInfo && <ContractAddress address={contractInfo.address} />}
           <div className="px-2 py-1 bg-primary text-primary-content whitespace-nowrap rounded-lg text-lg">
-            15,000 USDC
+            {balance ? Number(formatUnits(balance, 6)).toLocaleString() : "..."} USDC
           </div>
         </div>
-      </div>
-      <div className="p-8 bg-base-300 rounded-b-lg lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg">
-        <p className="mt-0 text-2xl lg:text-3xl">Owner</p>
-        <ContractAddress address="0x6A4E5ed62d3827128Dbd70c5bDe25C0e6c6aA537" />
       </div>
     </div>
   );
