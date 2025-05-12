@@ -4,7 +4,7 @@ type ContributionLogItemProps = {
   title: string;
   description: string;
   date: string;
-  amount: string;
+  amount: number;
   builder: {
     address: string;
     twitterUrl?: string;
@@ -29,7 +29,7 @@ export function ContributionLogItem({ title, description, date, amount, builder 
         <p className="mb-0 mt-2">{description}</p>
       </div>
       <div className="px-2 py-1 bg-primary text-primary-content whitespace-nowrap rounded-lg text-lg lg:mt-2">
-        {amount}
+        {amount} USDC
       </div>
     </div>
   );

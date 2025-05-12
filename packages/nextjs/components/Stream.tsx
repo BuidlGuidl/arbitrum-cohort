@@ -10,13 +10,14 @@ interface StreamItemProps {
   builder: BuilderAddressProps;
   cap: number;
   unlockedAmount: number;
+  viewWork: boolean;
 }
 
 export function Stream({ children }: { children: React.ReactNode }) {
   return <div className="space-y-8">{children}</div>;
 }
 
-export function StreamItem({ defaultOpen = false, children, builder, cap, unlockedAmount }: StreamItemProps) {
+export function StreamItem({ defaultOpen = false, children, builder, cap, unlockedAmount, viewWork }: StreamItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const percentage = Math.floor((unlockedAmount / cap) * 100);
@@ -33,6 +34,7 @@ export function StreamItem({ defaultOpen = false, children, builder, cap, unlock
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="btn btn-primary btn-xs !min-h-8 !h-8 lg:btn-md lg:!min-h-10 lg:!h-10"
+              disabled={!viewWork}
             >
               {isOpen ? "Hide Work" : "View Work"}
             </button>
