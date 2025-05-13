@@ -1,7 +1,7 @@
 type ProjectCardProps = {
   title: string;
   description: string;
-  builders: string[];
+  builders: { address: `0x${string}`; ens: string }[];
   githubUrl?: string;
   liveUrl?: string;
 };
@@ -18,7 +18,11 @@ export function ProjectCard({ title, description, builders, githubUrl, liveUrl }
           <span>Builders:</span>
           <div className="flex gap-1">
             {builders.map(builder => (
-              <div key={builder} className="h-4 w-4 rounded-full bg-blue-500"></div>
+              <div
+                key={builder.address}
+                className="h-4 w-4 rounded-full bg-blue-500"
+                title={builder.ens ? builder.ens : builder.address}
+              ></div>
             ))}
           </div>
         </div>

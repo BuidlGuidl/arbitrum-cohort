@@ -3,6 +3,7 @@ import { useScaffoldReadContract } from "./scaffold-eth";
 import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { formatUnits } from "viem";
+import { buildersData } from "~~/data/builders";
 
 type Withdrawal = {
   reason: string;
@@ -17,6 +18,18 @@ type Builder = {
   amount: number;
   unlockedAmount?: number;
   cohortWithdrawals: { items: Withdrawal[] };
+};
+
+type BuilderResult = {
+  builder: {
+    address: `0x${string}`;
+    ens: string;
+    x: string;
+    github: string;
+  };
+  amount: number;
+  unlockedAmount: number;
+  withdrawals: Withdrawal[];
 };
 
 type BuildersData = { cohortBuilders: { items: Builder[] } };
@@ -50,7 +63,7 @@ const fetchBuilders = async () => {
 
 export const useCohortBuildersWithWithdrawals = () => {
   const [builderList, setBuilderList] = useState<string[]>([]);
-  const [buildersData, setBuildersData] = useState<Builder[]>([]);
+  const [buildersResult, setBuildersResult] = useState<BuilderResult[]>([]);
 
   const { data: cohortBuildersData, isLoading: isLoadingBuilders } = useQuery({
     queryKey: ["buildersWithWithdrawals"],
@@ -83,17 +96,28 @@ export const useCohortBuildersWithWithdrawals = () => {
           (builderContract: BuilderContractData) =>
             builderContract.builderAddress.toLowerCase() === builder.address.toLowerCase(),
         );
+        const builderData = buildersData.find(
+          (builderData: any) => builderData.address.toLowerCase() === builder.address.toLowerCase(),
+        );
+        const builderResult: BuilderResult = {
+          builder: {
+            address: builder.address,
+            ens: builder.ens,
+            x: builderData?.x || "",
+            github: builderData?.github || "",
+          },
+          amount: builder.amount,
+          unlockedAmount: 0,
+          withdrawals: builder.cohortWithdrawals.items,
+        };
         if (builderFromContract) {
-          return {
-            ...builder,
-            unlockedAmount: parseFloat(formatUnits(builderFromContract.unlockedAmount, 6)),
-          };
+          builderResult.unlockedAmount = parseFloat(formatUnits(builderFromContract.unlockedAmount, 6));
         }
-        return builder;
+        return builderResult;
       });
-      setBuildersData(fetchedBuilderList);
+      setBuildersResult(fetchedBuilderList);
     }
   }, [cohortBuildersData, allBuildersContractData]);
 
-  return { data: buildersData, isLoading: isLoadingBuilders || isLoadingBuildersContractData };
+  return { data: buildersResult, isLoading: isLoadingBuilders || isLoadingBuildersContractData };
 };
