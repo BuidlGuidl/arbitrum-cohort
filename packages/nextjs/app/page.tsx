@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -7,11 +8,14 @@ import { ContributionLogItem } from "~~/components/ContributionLogItem";
 import { ProjectCard } from "~~/components/ProjectCard";
 import { Stream, StreamItem } from "~~/components/Stream";
 import { StreamContributionItem } from "~~/components/StreamContributionItem";
+import { WithdrawModal } from "~~/components/WithdrawModal";
 import { useCohortBuildersWithWithdrawals } from "~~/hooks/useCohortBuildersWithWithdrawals";
 import { useCohortProjects } from "~~/hooks/useCohortProjects";
 import { useCohortWithdrawals } from "~~/hooks/useCohortWithdrawals";
 
 const Home: NextPage = () => {
+  const withdrawModalRef = useRef<HTMLDialogElement>(null);
+
   const { data: cohortWithdrawalsData, isLoading: isLoadingCohortWithdrawals } = useCohortWithdrawals();
   const { data: buildersWithWithdrawals, isLoading: isLoadingBuildersWithWithdrawals } =
     useCohortBuildersWithWithdrawals();
@@ -74,7 +78,17 @@ const Home: NextPage = () => {
       </div>
       <div id="builders" className="container mx-auto">
         <section className="bg-base-300 rounded-lg p-8 mb-8">
-          <h2 className="mb-4 text-3xl md:text-4xl">Builders</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-3xl md:text-4xl">Builders</h2>
+            <button
+              className="btn btn-primary 2xl:min-w-32"
+              onClick={() => {
+                withdrawModalRef.current?.showModal();
+              }}
+            >
+              Withdraw
+            </button>
+          </div>
           <div className="mt-12">
             <div className="hidden mb-2 lg:grid lg:grid-cols-4">
               <div>
@@ -135,6 +149,7 @@ const Home: NextPage = () => {
           </div>
         </section>
       </div>
+      <WithdrawModal ref={withdrawModalRef} closeModal={() => withdrawModalRef.current?.close()} />
     </div>
   );
 };

@@ -1,0 +1,96 @@
+import { forwardRef, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
+import { projectsData } from "~~/data/projects";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+
+export const WithdrawModal = forwardRef<
+  HTMLDialogElement,
+  {
+    closeModal: () => void;
+  }
+>(({ closeModal }, ref) => {
+  const [reason, setReason] = useState("");
+  const [amount, setAmount] = useState("");
+  const [selectedProject, setSelectedProject] = useState("");
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
+
+  const { writeContractAsync } = useScaffoldWriteContract({
+    contractName: "Cohort",
+  });
+
+  const doWithdraw = async () => {
+    if (!selectedProject || !reason || !amount) {
+      toast.error("Please fill out all fields before withdrawing.");
+      return;
+    }
+
+    try {
+      setIsWithdrawing(true);
+      await writeContractAsync({
+        functionName: "streamWithdraw",
+        args: [BigInt(`${amount}000000`), reason, selectedProject],
+      });
+      toast.success(
+        "Withdrawal request successfully created! The withdrawal request will be reviewed by the team and the funds will be released upon approval.",
+      );
+      closeModal();
+    } catch (error) {
+      console.error("Withdrawal failed:", error);
+      toast.error("Withdrawal failed. Please try again.");
+    } finally {
+      setIsWithdrawing(false);
+    }
+  };
+
+  return (
+    <dialog id="action_modal" className="modal" ref={ref}>
+      <div className="modal-box flex flex-col space-y-6">
+        <form method="dialog" className="bg-secondary -mx-6 -mt-6 px-6 py-4 flex items-center justify-between">
+          <div className="flex justify-between items-center">
+            <p className="font-bold text-xl m-0">Request a withdraw from your stream</p>
+          </div>
+          <button className="btn btn-sm btn-circle btn-ghost text-xl h-auto">✕</button>
+        </form>
+        <div className="flex flex-col gap-6 items-center">
+          <select
+            className="select select-bordered w-full"
+            value={selectedProject}
+            onChange={event => setSelectedProject(event.target.value)}
+          >
+            <option value="" disabled>
+              Select a project
+            </option>
+            {projectsData.map(project => (
+              <option key={project.name} value={project.name}>
+                {project.title}
+              </option>
+            ))}
+          </select>
+          <textarea
+            className="textarea textarea-ghost focus:outline-none min-h-[200px] focus:bg-transparent px-4 w-full font-medium placeholder:text-accent/50 border-2 border-base-300 bg-base-200 rounded-3xl text-accent"
+            placeholder="Reason for withdrawing & links"
+            value={reason}
+            onChange={event => setReason(event.target.value)}
+          />
+          <input
+            type="number"
+            className="input input-bordered w-full"
+            placeholder="USDC Amount"
+            value={amount}
+            onChange={event => setAmount(event.target.value)}
+          />
+          <button
+            className={`btn btn-secondary btn-sm ${isWithdrawing ? "loading" : ""}`}
+            onClick={doWithdraw}
+            disabled={isWithdrawing}
+          >
+            Withdraw
+          </button>
+        </div>
+      </div>
+      <Toaster />
+    </dialog>
+  );
+});
+
+WithdrawModal.displayName = "WithdrawModal";
