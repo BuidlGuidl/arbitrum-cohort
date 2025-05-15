@@ -49,7 +49,7 @@ export const WithdrawModal = forwardRef<
       <div className="modal-box flex flex-col space-y-6">
         <form method="dialog" className="bg-secondary -mx-6 -mt-6 px-6 py-4 flex items-center justify-between">
           <div className="flex justify-between items-center">
-            <p className="font-bold text-xl m-0">Request a withdraw from your stream</p>
+            <p className="font-bold text-xl m-0">Request a withdrawal from your stream</p>
           </div>
           <button className="btn btn-sm btn-circle btn-ghost text-xl h-auto">✕</button>
         </form>
