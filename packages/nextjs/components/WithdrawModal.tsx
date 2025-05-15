@@ -82,10 +82,11 @@ export const WithdrawModal = forwardRef<
             onChange={event => setAmount(event.target.value)}
           />
           <button
-            className={`btn btn-secondary btn-sm ${isWithdrawing ? "loading" : ""}`}
+            className="btn btn-secondary btn-sm flex items-center justify-center"
             onClick={doWithdraw}
             disabled={isWithdrawing}
           >
+            {isWithdrawing && <span className="loading loading-spinner loading-xs mr-2"></span>}
             Withdraw
           </button>
         </div>
