@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
+import { buildersData } from "~~/data/builders";
 
 type Withdrawal = {
   id: string;
@@ -11,6 +13,19 @@ type Withdrawal = {
 };
 
 type WithdrawalsData = { cohortWithdrawals: { items: Withdrawal[] } };
+
+type WithdrawalResult = {
+  id: string;
+  reason: string;
+  builder: {
+    address: `0x${string}`;
+    x: string;
+    github: string;
+  };
+  amount: number;
+  timestamp: number;
+  projectName: string;
+};
 
 const fetchWithdrawals = async () => {
   const WithdrawalsQuery = gql`
@@ -35,12 +50,36 @@ const fetchWithdrawals = async () => {
 };
 
 export const useCohortWithdrawals = () => {
+  const [withdrawalsResult, setWithdrawalsResult] = useState<WithdrawalResult[]>([]);
+
   const { data: withdrawalsData, isLoading } = useQuery({
     queryKey: ["withdrawals"],
     queryFn: fetchWithdrawals,
   });
 
-  const data = withdrawalsData?.cohortWithdrawals.items || [];
+  useEffect(() => {
+    if (withdrawalsData && withdrawalsData.cohortWithdrawals.items.length > 0) {
+      const fetchedWithdrawalList = withdrawalsData.cohortWithdrawals.items.map((withdrawal: Withdrawal) => {
+        const builderData = buildersData.find(
+          (builderData: any) => builderData.address.toLowerCase() === withdrawal.builder.toLowerCase(),
+        );
+        const withdrawResult: WithdrawalResult = {
+          id: withdrawal.id,
+          reason: withdrawal.reason,
+          builder: {
+            address: withdrawal.builder,
+            x: builderData?.x || "",
+            github: builderData?.github || "",
+          },
+          amount: withdrawal.amount,
+          timestamp: withdrawal.timestamp,
+          projectName: withdrawal.projectName,
+        };
+        return withdrawResult;
+      });
+      setWithdrawalsResult(fetchedWithdrawalList);
+    }
+  }, [withdrawalsData]);
 
-  return { data, isLoading };
+  return { data: withdrawalsResult, isLoading };
 };

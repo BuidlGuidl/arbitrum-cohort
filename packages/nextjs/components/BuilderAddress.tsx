@@ -8,11 +8,11 @@ import { useEnsAvatar, useEnsName } from "wagmi";
 export type BuilderAddressProps = {
   className?: string;
   address: string;
-  twitterUrl?: string;
-  githubUrl?: string;
+  x?: string;
+  github?: string;
 };
 
-export function BuilderAddress({ className, address, twitterUrl, githubUrl }: BuilderAddressProps) {
+export function BuilderAddress({ className, address, x, github }: BuilderAddressProps) {
   const checkSumAddress = address ? getAddress(address) : undefined;
 
   const { data: ens, isLoading: isEnsNameLoading } = useEnsName({
@@ -52,13 +52,13 @@ export function BuilderAddress({ className, address, twitterUrl, githubUrl }: Bu
         <p className="m-0 text-lg">{ens || checkSumAddress?.slice(0, 6) + "..." + checkSumAddress?.slice(-4)}</p>
       )}
       <div className="flex items-center gap-2 shrink-0">
-        {twitterUrl && (
-          <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
+        {x && (
+          <a href={`https://x.com/${x}`} target="_blank" rel="noopener noreferrer">
             <Image alt="Twitter Icon" src="/icon-twitter.svg" width={28} height={28} />
           </a>
         )}
-        {githubUrl && (
-          <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+        {github && (
+          <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer">
             <Image alt="Github Icon" src="/icon-github.svg" width={28} height={28} />
           </a>
         )}

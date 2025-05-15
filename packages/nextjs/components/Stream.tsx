@@ -26,7 +26,7 @@ export function StreamItem({ defaultOpen = false, children, builder, cap, unlock
     <div className="overflow-hidden">
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
         <div>
-          <BuilderAddress address={builder.address} twitterUrl={builder.twitterUrl} githubUrl={builder.githubUrl} />
+          <BuilderAddress address={builder.address} x={builder.x} github={builder.github} />
         </div>
         <div className="lg:col-span-3">
           <div className="mt-2 flex items-center gap-2 md:gap-6">

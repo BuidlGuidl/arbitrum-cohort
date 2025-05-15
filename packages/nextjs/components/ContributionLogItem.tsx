@@ -7,20 +7,15 @@ type ContributionLogItemProps = {
   amount: number;
   builder: {
     address: string;
-    twitterUrl?: string;
-    githubUrl?: string;
+    x?: string;
+    github?: string;
   };
 };
 
 export function ContributionLogItem({ title, description, date, amount, builder }: ContributionLogItemProps) {
   return (
     <div className="py-8 flex flex-col items-start gap-6 lg:flex-row lg:gap-8">
-      <BuilderAddress
-        className="lg:mt-2 lg:min-w-80"
-        address={builder.address}
-        twitterUrl={builder.twitterUrl}
-        githubUrl={builder.githubUrl}
-      />
+      <BuilderAddress className="lg:mt-2 lg:min-w-80" address={builder.address} x={builder.x} github={builder.github} />
       <div>
         <div className="flex flex-col gap-1 lg:flex-row lg:gap-4 lg:items-baseline">
           <h3 className="m-0 text-xl lg:text-2xl">{title}</h3>
