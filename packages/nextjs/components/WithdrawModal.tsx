@@ -1,5 +1,6 @@
 import { forwardRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
+import { parseUnits } from "viem";
 import { projectsData } from "~~/data/projects";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
@@ -26,9 +27,10 @@ export const WithdrawModal = forwardRef<
 
     try {
       setIsWithdrawing(true);
+      const parsedAmount = parseUnits(amount, 6);
       await writeContractAsync({
         functionName: "streamWithdraw",
-        args: [BigInt(`${amount}000000`), reason, selectedProject],
+        args: [parsedAmount, reason, selectedProject],
       });
       toast.success(
         "Withdrawal request successfully created! The withdrawal request will be reviewed by the team and the funds will be released upon approval.",
