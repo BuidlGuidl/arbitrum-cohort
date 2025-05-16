@@ -10,9 +10,10 @@ export type BuilderAddressProps = {
   address: string;
   x?: string;
   github?: string;
+  isImageOnly?: boolean;
 };
 
-export function BuilderAddress({ className, address, x, github }: BuilderAddressProps) {
+export function BuilderAddress({ className, address, x, github, isImageOnly }: BuilderAddressProps) {
   const checkSumAddress = address ? getAddress(address) : undefined;
 
   const { data: ens, isLoading: isEnsNameLoading } = useEnsName({
@@ -30,6 +31,25 @@ export function BuilderAddress({ className, address, x, github }: BuilderAddress
       gcTime: 30_000,
     },
   });
+
+  if (isImageOnly) {
+    return (
+      <>
+        {isEnsNameLoading || isEnsAvatarLoading ? (
+          <div className="skeleton w-7 h-7 rounded-md bg-base-200" />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={ensAvatar || blo(address as `0x${string}`)}
+            width={28}
+            height={28}
+            alt="Avatar"
+            className="rounded-full shrink-0"
+          />
+        )}
+      </>
+    );
+  }
 
   return (
     <div className={clsx("flex flex-wrap items-center gap-4 shrink-0 lg:gap-6", className)}>
