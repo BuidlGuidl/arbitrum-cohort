@@ -46,7 +46,7 @@ export const WithdrawModal = forwardRef<
 
   return (
     <dialog id="action_modal" className="modal" ref={ref}>
-      <div className="modal-box flex flex-col space-y-6">
+      <div className="modal-box flex flex-col space-y-6 rounded-lg">
         <form method="dialog" className="bg-secondary -mx-6 -mt-6 px-6 py-4 flex items-center justify-between">
           <div className="flex justify-between items-center">
             <p className="font-bold text-xl m-0">Request a withdrawal from your stream</p>
@@ -55,7 +55,7 @@ export const WithdrawModal = forwardRef<
         </form>
         <div className="flex flex-col gap-6 items-center">
           <select
-            className="select select-bordered w-full"
+            className="select select-bordered w-full rounded-lg"
             value={selectedProject}
             onChange={event => setSelectedProject(event.target.value)}
           >
@@ -69,25 +69,30 @@ export const WithdrawModal = forwardRef<
             ))}
           </select>
           <textarea
-            className="textarea textarea-ghost focus:outline-none min-h-[200px] focus:bg-transparent px-4 w-full font-medium placeholder:text-accent/50 border-2 border-base-300 bg-base-200 rounded-3xl text-accent"
+            className="textarea textarea-ghost focus:outline-none min-h-[200px] focus:bg-transparent px-4 w-full font-medium placeholder:text-base-content/50 border border-gray-600 bg-base-200 rounded-lg text-accent"
             placeholder="Reason for withdrawing & links"
             value={reason}
             onChange={event => setReason(event.target.value)}
           />
           <input
             type="number"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full rounded-lg"
             placeholder="USDC Amount"
             value={amount}
             onChange={event => setAmount(event.target.value)}
           />
           <button
-            className="btn btn-secondary btn-sm flex items-center justify-center"
+            className="btn btn-secondary btn-lg py-3 flex items-center justify-center"
             onClick={doWithdraw}
             disabled={isWithdrawing}
           >
-            {isWithdrawing && <span className="loading loading-spinner loading-xs mr-2"></span>}
-            Withdraw
+            {isWithdrawing ? (
+              <>
+                <span className="loading loading-spinner loading-xs mr-2"></span> Withdrawing
+              </>
+            ) : (
+              "Withdraw"
+            )}
           </button>
         </div>
       </div>
