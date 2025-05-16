@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { buildersData } from "~~/data/builders";
+import { projectsData } from "~~/data/projects";
 
 type Withdrawal = {
   id: string;
@@ -25,6 +26,7 @@ type WithdrawalResult = {
   amount: number;
   timestamp: number;
   projectName: string;
+  projectTitle: string;
 };
 
 const fetchWithdrawals = async () => {
@@ -74,6 +76,10 @@ export const useCohortWithdrawals = () => {
           amount: withdrawal.amount,
           timestamp: withdrawal.timestamp,
           projectName: withdrawal.projectName,
+          projectTitle:
+            projectsData.find(
+              (projectData: any) => projectData.name.toLowerCase() === withdrawal.projectName.toLowerCase(),
+            )?.title || withdrawal.projectName,
         };
         return withdrawResult;
       });

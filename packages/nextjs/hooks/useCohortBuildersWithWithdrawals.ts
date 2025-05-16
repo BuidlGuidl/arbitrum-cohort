@@ -4,8 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { formatUnits } from "viem";
 import { buildersData } from "~~/data/builders";
+import { projectsData } from "~~/data/projects";
 
-type Withdrawal = {
+type CohortWithdrawal = {
+  id: string;
   reason: string;
   amount: number;
   timestamp: number;
@@ -17,7 +19,11 @@ type Builder = {
   address: `0x${string}`;
   amount: number;
   unlockedAmount?: number;
-  cohortWithdrawals: { items: Withdrawal[] };
+  cohortWithdrawals: { items: CohortWithdrawal[] };
+};
+
+type Withdrawal = CohortWithdrawal & {
+  projectTitle: string;
 };
 
 type BuilderResult = {
@@ -44,6 +50,7 @@ const fetchBuilders = async () => {
           amount
           cohortWithdrawals(orderBy: "timestamp", orderDirection: "desc") {
             items {
+              id
               amount
               reason
               projectName
@@ -108,7 +115,17 @@ export const useCohortBuildersWithWithdrawals = () => {
           },
           amount: builder.amount,
           unlockedAmount: 0,
-          withdrawals: builder.cohortWithdrawals.items,
+          withdrawals: builder.cohortWithdrawals.items.map((withdrawalItem: CohortWithdrawal) => ({
+            id: withdrawalItem.id,
+            amount: withdrawalItem.amount,
+            timestamp: withdrawalItem.timestamp,
+            reason: withdrawalItem.reason,
+            projectName: withdrawalItem.projectName,
+            projectTitle:
+              projectsData.find(
+                (projectData: any) => projectData.name.toLowerCase() === withdrawalItem.projectName.toLowerCase(),
+              )?.title || withdrawalItem.projectName,
+          })),
         };
         if (builderFromContract) {
           builderResult.unlockedAmount = parseFloat(formatUnits(builderFromContract.unlockedAmount, 6));

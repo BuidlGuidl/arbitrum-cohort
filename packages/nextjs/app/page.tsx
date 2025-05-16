@@ -122,8 +122,8 @@ const Home: NextPage = () => {
                     <div className="px-6 rounded-lg bg-base-100 divide-y">
                       {builderData.withdrawals.map(item => (
                         <StreamContributionItem
-                          key={item.timestamp}
-                          title={item.projectName}
+                          key={item.id}
+                          title={item.projectTitle}
                           description={item.reason}
                           date={new Date(item.timestamp * 1000).toLocaleDateString()}
                           amount={item.amount}
@@ -147,7 +147,7 @@ const Home: NextPage = () => {
               cohortWithdrawalsData.map(item => (
                 <ContributionLogItem
                   key={item.id}
-                  title={item.projectName}
+                  title={item.projectTitle}
                   description={item.reason}
                   date={new Date(item.timestamp * 1000).toLocaleDateString()}
                   amount={item.amount}
