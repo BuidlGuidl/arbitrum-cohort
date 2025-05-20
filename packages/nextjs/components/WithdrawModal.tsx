@@ -69,7 +69,7 @@ export const WithdrawModal = forwardRef<
             ))}
           </select>
           <textarea
-            className="textarea textarea-ghost focus:outline-none min-h-[200px] focus:bg-transparent px-4 w-full font-medium placeholder:text-base-content/50 border border-gray-600 bg-base-200 rounded-lg text-accent"
+            className="textarea textarea-ghost focus:outline-none min-h-[200px] focus:bg-transparent px-4 w-full font-medium placeholder:text-base-content/50 border border-gray-600 bg-base-200 rounded-lg"
             placeholder="Reason for withdrawing & links"
             value={reason}
             onChange={event => setReason(event.target.value)}

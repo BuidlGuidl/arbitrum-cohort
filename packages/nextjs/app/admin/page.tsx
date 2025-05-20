@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { StreamContributionItem } from "~~/components/StreamContributionItem";
-import { WithdrawalRequest, WithdrawalRequestItem } from "~~/components/WithdrawalRequest";
+import { WithdrawalRequestItem } from "~~/components/WithdrawalRequest";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { useCohortWithdrawalRequests } from "~~/hooks/useCohortWithdrawalRequests";
 
@@ -28,7 +28,7 @@ const Admin: NextPage = () => {
   }, [isAdminData]);
 
   if (isCheckingAdmin || isAdmin === null) {
-    return <div className="text-center mt-8">Checking admin permissions...</div>;
+    return <div className="text-xl text-center mt-8">Checking admin permissions...</div>;
   }
 
   if (!isAdmin) {
@@ -56,36 +56,34 @@ const Admin: NextPage = () => {
                 <p className="mt-0">Withdrawal Request</p>
               </div>
             </div>
-            <WithdrawalRequest>
-              {isLoadingCohortWithdrawalRequests ? (
-                <span className="loading loading-spinner loading-lg"></span>
-              ) : (
-                cohortWithdrawalRequestsData.map(withdrawalRequestData => (
-                  <WithdrawalRequestItem
-                    key={withdrawalRequestData.id}
-                    builder={withdrawalRequestData.builder}
-                    requestId={withdrawalRequestData.requestId}
-                    reason={withdrawalRequestData.reason}
-                    amount={withdrawalRequestData.amount}
-                    timestamp={withdrawalRequestData.timestamp}
-                    projectTitle={withdrawalRequestData.projectTitle}
-                    viewWork={withdrawalRequestData.withdrawals.length > 0}
-                  >
-                    <div className="px-6 rounded-lg bg-base-100 divide-y">
-                      {withdrawalRequestData.withdrawals.map(item => (
-                        <StreamContributionItem
-                          key={item.id}
-                          title={item.projectTitle}
-                          description={item.reason}
-                          date={new Date(item.timestamp * 1000).toLocaleDateString()}
-                          amount={item.amount}
-                        />
-                      ))}
-                    </div>
-                  </WithdrawalRequestItem>
-                ))
-              )}
-            </WithdrawalRequest>
+            {isLoadingCohortWithdrawalRequests ? (
+              <span className="loading loading-spinner loading-lg"></span>
+            ) : (
+              cohortWithdrawalRequestsData.map(withdrawalRequestData => (
+                <WithdrawalRequestItem
+                  key={withdrawalRequestData.id}
+                  builder={withdrawalRequestData.builder}
+                  requestId={withdrawalRequestData.requestId}
+                  reason={withdrawalRequestData.reason}
+                  amount={withdrawalRequestData.amount}
+                  timestamp={withdrawalRequestData.timestamp}
+                  projectTitle={withdrawalRequestData.projectTitle}
+                  viewWork={withdrawalRequestData.withdrawals.length > 0}
+                >
+                  <div className="px-6 rounded-lg bg-base-100 divide-y">
+                    {withdrawalRequestData.withdrawals.map(item => (
+                      <StreamContributionItem
+                        key={item.id}
+                        title={item.projectTitle}
+                        description={item.reason}
+                        date={new Date(item.timestamp * 1000).toLocaleDateString()}
+                        amount={item.amount}
+                      />
+                    ))}
+                  </div>
+                </WithdrawalRequestItem>
+              ))
+            )}
           </div>
         </section>
       </div>

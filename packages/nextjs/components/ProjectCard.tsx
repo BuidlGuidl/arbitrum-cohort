@@ -3,7 +3,7 @@ import { BuilderAddress } from "./BuilderAddress";
 type ProjectCardProps = {
   title: string;
   description: string;
-  builders: { address: `0x${string}`; ens: string }[];
+  builders: string[];
   githubUrl?: string;
   liveUrl?: string;
 };
@@ -21,7 +21,7 @@ export function ProjectCard({ title, description, builders, githubUrl, liveUrl }
             <span>Builders:</span>
             <div className="flex gap-1">
               {builders.map(builder => (
-                <BuilderAddress key={builder.address} address={builder.address} isImageOnly />
+                <BuilderAddress key={builder} address={builder} isImageOnly />
               ))}
             </div>
           </div>

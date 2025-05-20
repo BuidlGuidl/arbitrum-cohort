@@ -16,10 +16,7 @@ type WithdrawalsData = { cohortWithdrawals: { items: Withdrawal[] } };
 type ProjectResult = {
   name: string;
   title: string;
-  builders: {
-    address: `0x${string}`;
-    ens: string;
-  }[];
+  builders: `0x${string}`[];
   description: string;
   githubUrl: string;
   liveUrl: string;
@@ -65,10 +62,7 @@ export const useCohortProjects = () => {
           name: projectData.name,
           title: projectData.title,
           builders: buildersData
-            ? buildersData.map((builderData: Withdrawal) => ({
-                address: builderData.cohortBuilder.address,
-                ens: builderData.cohortBuilder.ens,
-              }))
+            ? [...new Set(buildersData.map((builderData: Withdrawal) => builderData.cohortBuilder.address))]
             : [],
           description: projectData.description,
           githubUrl: projectData.githubUrl,
