@@ -9,6 +9,9 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ title, description, builders, githubUrl, liveUrl }: ProjectCardProps) {
+  // Remove duplicate addresses
+  const uniqueBuilders = Array.from(new Map(builders.map(builder => [builder.address, builder])).values());
+
   return (
     <div className="bg-base-200 rounded-bl-lg rounded-br-lg">
       <div className="bg-primary rounded-tl-lg rounded-tr-lg p-2 md:px-4 md:py-3">
@@ -16,11 +19,11 @@ export function ProjectCard({ title, description, builders, githubUrl, liveUrl }
       </div>
       <div className="p-4 space-y-4">
         <p className="m-0">{description}</p>
-        {builders.length > 0 && (
+        {uniqueBuilders.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
             <span>Builders:</span>
             <div className="flex gap-1">
-              {builders.map(builder => (
+              {uniqueBuilders.map(builder => (
                 <BuilderAddress key={builder.address} address={builder.address} isImageOnly />
               ))}
             </div>
