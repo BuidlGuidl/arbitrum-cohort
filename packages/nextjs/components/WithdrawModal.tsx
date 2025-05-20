@@ -1,8 +1,10 @@
 import { forwardRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { parseUnits } from "viem";
+import { useAccount } from "wagmi";
 import { projectsData } from "~~/data/projects";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 export const WithdrawModal = forwardRef<
   HTMLDialogElement,
@@ -15,8 +17,16 @@ export const WithdrawModal = forwardRef<
   const [selectedProject, setSelectedProject] = useState("");
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
+  const { address: builderAddress } = useAccount();
+
   const { writeContractAsync } = useScaffoldWriteContract({
     contractName: "Cohort",
+  });
+
+  const { data: requiresApproval } = useScaffoldReadContract({
+    contractName: "Cohort",
+    functionName: "requiresApproval",
+    args: [builderAddress],
   });
 
   const doWithdraw = async () => {
@@ -33,7 +43,9 @@ export const WithdrawModal = forwardRef<
         args: [parsedAmount, reason, selectedProject],
       });
       toast.success(
-        "Withdrawal request successfully created! The withdrawal request will be reviewed by the team and the funds will be released upon approval.",
+        requiresApproval
+          ? "Withdrawal request successfully created! The withdrawal request will be reviewed by the team and the funds will be released upon approval."
+          : "Withdrawal successful!",
       );
       closeModal();
     } catch (error) {
