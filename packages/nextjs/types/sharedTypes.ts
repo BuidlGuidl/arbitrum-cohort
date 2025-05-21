@@ -6,3 +6,11 @@ export interface CollapsibleItemProps {
   builder: BuilderAddressProps;
   viewWork: boolean;
 }
+
+export interface WithdrawalRequestBase {
+  id: string;
+  amount: number;
+  timestamp: number;
+  reason: string;
+  projectName: string;
+}
