@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { buildersData } from "~~/data/builders";
 import { projectsData } from "~~/data/projects";
-import { WithdrawalRequestBase } from "~~/types/sharedTypes";
+import { BuilderWithSocialBase, WithdrawalRequestBase } from "~~/types/sharedTypes";
 
 type WithdrawalRequest = WithdrawalRequestBase & {
   requestId: bigint;
@@ -21,18 +21,9 @@ type Withdrawal = WithdrawalRequestBase & {
   projectTitle: string;
 };
 
-type WithdrawalRequestResult = {
-  id: string;
+type WithdrawalRequestResult = WithdrawalRequestBase & {
   requestId: bigint;
-  reason: string;
-  builder: {
-    address: `0x${string}`;
-    x: string;
-    github: string;
-  };
-  amount: number;
-  timestamp: number;
-  projectName: string;
+  builder: BuilderWithSocialBase;
   projectTitle: string;
   withdrawals: Withdrawal[];
 };

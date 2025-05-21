@@ -4,13 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { formatUnits } from "viem";
 import { buildersData } from "~~/data/builders";
+import { BuilderWithSocialBase, WithdrawalRequestBase } from "~~/types/sharedTypes";
 
-type Withdrawal = {
-  reason: string;
-  amount: number;
-  timestamp: number;
-  projectName: string;
-};
+type Withdrawal = Omit<WithdrawalRequestBase, "id">;
 
 type Builder = {
   ens: string;
@@ -21,11 +17,8 @@ type Builder = {
 };
 
 type BuilderResult = {
-  builder: {
-    address: `0x${string}`;
+  builder: BuilderWithSocialBase & {
     ens: string;
-    x: string;
-    github: string;
   };
   amount: number;
   unlockedAmount: number;

@@ -14,3 +14,9 @@ export interface WithdrawalRequestBase {
   reason: string;
   projectName: string;
 }
+
+export interface BuilderWithSocialBase {
+  address: `0x${string}`;
+  x: string;
+  github: string;
+}
