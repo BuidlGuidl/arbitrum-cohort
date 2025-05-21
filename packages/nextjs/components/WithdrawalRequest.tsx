@@ -6,13 +6,13 @@ import { BuilderAddress } from "~~/components/BuilderAddress";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { CollapsibleItemProps } from "~~/types/sharedTypes";
 
-interface WithdrawalRequestItemProps extends CollapsibleItemProps {
+type WithdrawalRequestItemProps = CollapsibleItemProps & {
   requestId: bigint;
   reason: string;
   amount: number;
   timestamp: number;
   projectTitle: string;
-}
+};
 
 export function WithdrawalRequestItem({
   defaultOpen = false,

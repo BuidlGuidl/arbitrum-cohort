@@ -5,10 +5,10 @@ import { BuilderAddress } from "~~/components/BuilderAddress";
 import { ProgressBar } from "~~/components/ProgressBar";
 import { CollapsibleItemProps } from "~~/types/sharedTypes";
 
-interface StreamItemProps extends CollapsibleItemProps {
+type StreamItemProps = CollapsibleItemProps & {
   cap: number;
   unlockedAmount: number;
-}
+};
 
 export function Stream({ children }: { children: React.ReactNode }) {
   return <div className="space-y-8">{children}</div>;
