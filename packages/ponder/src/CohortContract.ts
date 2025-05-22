@@ -6,6 +6,7 @@ import {
   cohortWithdrawal,
   cohortWithdrawalRequest,
 } from "ponder:schema";
+import { TelegramNotifier } from "../lib/telegram";
 
 // Create a viem client for the mainnet
 const clientMainnet = createPublicClient({
@@ -66,6 +67,20 @@ ponder.on("Cohort:WithdrawRequested", async ({ event, context }) => {
     projectName: event.args.projectName,
     status: "pending",
   });
+
+  try {
+    const telegramNotifier = new TelegramNotifier();
+    await telegramNotifier.notifyNewWithdrawalRequest({
+      id: `${event.args.builder}-${event.args.requestId}`,
+      requestId: event.args.requestId,
+      builder: event.args.builder,
+      amount: parseFloat(formatUnits(event.args.amount, 6)),
+      reason: event.args.reason,
+      projectName: event.args.projectName,
+    });
+  } catch (error) {
+    console.error("Error sending Telegram notification: ", error);
+  }
 });
 
 ponder.on("Cohort:WithdrawApproved", async ({ event, context }) => {
