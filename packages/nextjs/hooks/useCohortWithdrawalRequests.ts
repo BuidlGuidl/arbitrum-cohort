@@ -3,48 +3,27 @@ import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { buildersData } from "~~/data/builders";
 import { projectsData } from "~~/data/projects";
+import { BuilderWithSocialBase, WithdrawalRequestBase } from "~~/types/sharedTypes";
 
-type WithdrawalRequest = {
-  id: string;
+type WithdrawalRequest = WithdrawalRequestBase & {
   requestId: bigint;
-  reason: string;
   builder: `0x${string}`;
-  amount: number;
-  timestamp: number;
-  projectName: string;
   cohortBuilder: {
     cohortWithdrawals: {
-      items: CohortWithdrawal[];
+      items: WithdrawalRequestBase[];
     };
   };
 };
 
-type CohortWithdrawal = {
-  id: string;
-  amount: number;
-  timestamp: number;
-  reason: string;
-  projectName: string;
-};
-
 type WithdrawalRequestsData = { cohortWithdrawalRequests: { items: WithdrawalRequest[] } };
 
-type Withdrawal = CohortWithdrawal & {
+type Withdrawal = WithdrawalRequestBase & {
   projectTitle: string;
 };
 
-type WithdrawalRequestResult = {
-  id: string;
+type WithdrawalRequestResult = WithdrawalRequestBase & {
   requestId: bigint;
-  reason: string;
-  builder: {
-    address: `0x${string}`;
-    x: string;
-    github: string;
-  };
-  amount: number;
-  timestamp: number;
-  projectName: string;
+  builder: BuilderWithSocialBase;
   projectTitle: string;
   withdrawals: Withdrawal[];
 };
@@ -114,17 +93,19 @@ export const useCohortWithdrawalRequests = () => {
             timestamp: withdrawal.timestamp,
             projectName: withdrawal.projectName,
             projectTitle: projectData?.title || withdrawal.projectName,
-            withdrawals: withdrawal.cohortBuilder.cohortWithdrawals.items.map((withdrawalItem: CohortWithdrawal) => ({
-              id: withdrawalItem.id,
-              amount: withdrawalItem.amount,
-              timestamp: withdrawalItem.timestamp,
-              reason: withdrawalItem.reason,
-              projectName: withdrawalItem.projectName,
-              projectTitle:
-                projectsData.find(
-                  (projectData: any) => projectData.name.toLowerCase() === withdrawalItem.projectName.toLowerCase(),
-                )?.title || withdrawalItem.projectName,
-            })),
+            withdrawals: withdrawal.cohortBuilder.cohortWithdrawals.items.map(
+              (withdrawalItem: WithdrawalRequestBase) => ({
+                id: withdrawalItem.id,
+                amount: withdrawalItem.amount,
+                timestamp: withdrawalItem.timestamp,
+                reason: withdrawalItem.reason,
+                projectName: withdrawalItem.projectName,
+                projectTitle:
+                  projectsData.find(
+                    (projectData: any) => projectData.name.toLowerCase() === withdrawalItem.projectName.toLowerCase(),
+                  )?.title || withdrawalItem.projectName,
+              }),
+            ),
           };
           return withdrawRequestResult;
         },

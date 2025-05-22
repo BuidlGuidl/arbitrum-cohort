@@ -1,17 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderAddress, BuilderAddressProps } from "~~/components/BuilderAddress";
+import { BuilderAddress } from "~~/components/BuilderAddress";
 import { ProgressBar } from "~~/components/ProgressBar";
+import { CollapsibleItemProps } from "~~/types/sharedTypes";
 
-interface StreamItemProps {
-  defaultOpen?: boolean;
-  children: React.ReactNode;
-  builder: BuilderAddressProps;
+type StreamItemProps = CollapsibleItemProps & {
   cap: number;
   unlockedAmount: number;
-  viewWork: boolean;
-}
+};
 
 export function Stream({ children }: { children: React.ReactNode }) {
   return <div className="space-y-8">{children}</div>;

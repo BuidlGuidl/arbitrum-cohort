@@ -2,20 +2,17 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { BuilderAddress, BuilderAddressProps } from "~~/components/BuilderAddress";
+import { BuilderAddress } from "~~/components/BuilderAddress";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { CollapsibleItemProps } from "~~/types/sharedTypes";
 
-interface WithdrawalRequestItemProps {
-  defaultOpen?: boolean;
-  children: React.ReactNode;
-  builder: BuilderAddressProps;
+type WithdrawalRequestItemProps = CollapsibleItemProps & {
   requestId: bigint;
   reason: string;
   amount: number;
   timestamp: number;
   projectTitle: string;
-  viewWork: boolean;
-}
+};
 
 export function WithdrawalRequestItem({
   defaultOpen = false,

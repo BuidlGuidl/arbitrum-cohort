@@ -2,29 +2,16 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { buildersData } from "~~/data/builders";
+import { BuilderWithSocialBase, WithdrawalRequestBase } from "~~/types/sharedTypes";
 
-type Withdrawal = {
-  id: string;
-  reason: string;
+type Withdrawal = WithdrawalRequestBase & {
   builder: `0x${string}`;
-  amount: number;
-  timestamp: number;
-  projectName: string;
 };
 
 type WithdrawalsData = { cohortWithdrawals: { items: Withdrawal[] } };
 
-type WithdrawalResult = {
-  id: string;
-  reason: string;
-  builder: {
-    address: `0x${string}`;
-    x: string;
-    github: string;
-  };
-  amount: number;
-  timestamp: number;
-  projectName: string;
+type WithdrawalResult = WithdrawalRequestBase & {
+  builder: BuilderWithSocialBase;
 };
 
 const fetchWithdrawals = async () => {
