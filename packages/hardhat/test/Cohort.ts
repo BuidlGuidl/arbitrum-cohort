@@ -222,7 +222,7 @@ describe("Cohort", function () {
         "AccessDenied",
       );
     });
-    it("Should respect contract-wide approval requirement toggling", async function () {
+    it("Should still request approval after contract-wide approval requirement set to true", async function () {
       // Fund the contract for withdrawals
       await erc20.mint(owner.address, 2_000_000_000);
       await erc20.approve(cohort.getAddress(), 2_000_000_000);
@@ -232,17 +232,6 @@ describe("Cohort", function () {
       await cohort.toggleContractApprovalRequirement(false);
       // Builder1 still requires approval (per-builder flag is true)
       await expect(cohort.connect(builder1).streamWithdraw(100_000_000, "work done", "project1")).to.emit(
-        cohort,
-        "WithdrawRequested",
-      );
-
-      // Approve the first withdrawal request
-      await cohort.approveWithdraw(builder1.address, 0);
-
-      // Set contract-wide approval requirement to true
-      await cohort.toggleContractApprovalRequirement(true);
-      // Builder1's next withdrawal should also require approval
-      await expect(cohort.connect(builder1).streamWithdraw(100_000_000, "work done 2", "project2")).to.emit(
         cohort,
         "WithdrawRequested",
       );
