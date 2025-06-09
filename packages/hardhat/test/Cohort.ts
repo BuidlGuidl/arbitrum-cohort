@@ -222,7 +222,7 @@ describe("Cohort", function () {
         "AccessDenied",
       );
     });
-    it("Should still request approval after contract-wide approval requirement set to true", async function () {
+    it("Should still request approval after contract-wide approval requirement set to false", async function () {
       // Fund the contract for withdrawals
       await erc20.mint(owner.address, 2_000_000_000);
       await erc20.approve(cohort.getAddress(), 2_000_000_000);
