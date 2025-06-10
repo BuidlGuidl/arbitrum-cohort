@@ -1,12 +1,34 @@
 import { formatUnits } from "viem";
+import { useReadContract } from "wagmi";
 import { ContractAddress } from "~~/components/ContractAddress";
-import { useDeployedContractInfo, useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
 export const StreamContractInfo = () => {
   const { data: contractInfo, isLoading: isLoadingContractInfo } = useDeployedContractInfo({ contractName: "Cohort" });
-  // TODO: change to use USDC on production
-  const { data: balance } = useScaffoldReadContract({
-    contractName: "ERC20Mock",
+  const erc20Abi = [
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "account",
+          type: "address",
+        },
+      ],
+      name: "balanceOf",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+  const { data: balance } = useReadContract({
+    abi: erc20Abi,
+    address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", // USDC on Arbitrum
     functionName: "balanceOf",
     args: [contractInfo?.address],
   });
@@ -18,7 +40,7 @@ export const StreamContractInfo = () => {
         <div className="flex items-center gap-6">
           {!isLoadingContractInfo && contractInfo && <ContractAddress address={contractInfo.address} />}
           <div className="px-2 py-1 bg-primary text-primary-content whitespace-nowrap rounded-lg text-lg">
-            {balance ? Number(formatUnits(balance, 6)).toLocaleString() : "..."} USDC
+            {typeof balance !== "undefined" ? Number(formatUnits(balance as bigint, 6)).toLocaleString() : "..."} USDC
           </div>
         </div>
       </div>
