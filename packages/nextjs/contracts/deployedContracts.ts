@@ -1721,6 +1721,7 @@ const deployedContracts = {
   },
   42161: {
     Cohort: {
+      startBlock: 345914690,
       address: "0x9beFA108b2B23C07905F107fa6dD529F6e138630",
       abi: [
         {
