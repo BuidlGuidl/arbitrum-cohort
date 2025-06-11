@@ -40,17 +40,16 @@ export const Footer = () => {
               <p className="mt-0 text-lg text-secondary md:text-xl">Social</p>
               <ul className="space-y-2">
                 <li>
-                  <Link className="link no-underline hover:underline" href="#">
+                  <Link className="link no-underline hover:underline" href="https://x.com/buidlguidl" target="_blank">
                     Twitter
                   </Link>
                 </li>
                 <li>
-                  <Link className="link no-underline hover:underline" href="#">
-                    Discord
-                  </Link>
-                </li>
-                <li>
-                  <Link className="link no-underline hover:underline" href="#">
+                  <Link
+                    className="link no-underline hover:underline"
+                    href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA"
+                    target="_blank"
+                  >
                     Telegram
                   </Link>
                 </li>
