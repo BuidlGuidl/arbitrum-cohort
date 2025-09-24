@@ -15,4 +15,12 @@ export const projectsData: Project[] = [
     githubUrl: "https://github.com/damianmarti/dev-creds/",
     liveUrl: "https://github.com/damianmarti/dev-creds/",
   },
+  {
+    name: "proposals-dashboard",
+    title: "Proposals Dashboard",
+    description:
+      "A governance dashboard for Arbitrum that ingests proposals from Forums, Snapshot and Tally, glues them together and provides a user friendly UI to browse and navigate through them.",
+    githubUrl: "https://github.com/carletex/arbitrum-dashboard",
+    liveUrl: "https://github.com/carletex/arbitrum-dashboard",
+  },
 ];
