@@ -1,17 +1,6 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { gql, request } from "graphql-request";
+import { useMemo } from "react";
 import { projectsData } from "~~/data/projects";
-
-type Withdrawal = {
-  projectName: string;
-  cohortBuilder: {
-    ens: string;
-    address: `0x${string}`;
-  };
-};
-
-type WithdrawalsData = { cohortWithdrawals: { items: Withdrawal[] } };
+import { withdrawalsData } from "~~/data/withdrawals";
 
 type ProjectResult = {
   name: string;
@@ -22,57 +11,25 @@ type ProjectResult = {
   liveUrl: string;
 };
 
-const fetchWithdrawals = async () => {
-  const WithdrawalsQuery = gql`
-    query Withdrawls {
-      cohortWithdrawals(orderBy: "timestamp", orderDirection: "desc") {
-        items {
-          projectName
-          cohortBuilder {
-            ens
-            address
-          }
-        }
-      }
-    }
-  `;
-  const data = await request<WithdrawalsData>(
-    process.env.NEXT_PUBLIC_PONDER_URL || "http://localhost:42069",
-    WithdrawalsQuery,
-  );
-  return data;
-};
-
 export const useCohortProjects = () => {
-  const [projectsResult, setProjectsResult] = useState<ProjectResult[]>([]);
+  const data = useMemo<ProjectResult[]>(
+    () =>
+      projectsData.map(project => ({
+        name: project.name,
+        title: project.title,
+        builders: [
+          ...new Set(
+            withdrawalsData
+              .filter(withdrawal => withdrawal.projectName === project.name)
+              .map(withdrawal => withdrawal.builder),
+          ),
+        ],
+        description: project.description,
+        githubUrl: project.githubUrl,
+        liveUrl: project.liveUrl,
+      })),
+    [],
+  );
 
-  const { data: withdrawalsData, isLoading } = useQuery({
-    queryKey: ["projectsFromWithdrawals"],
-    queryFn: fetchWithdrawals,
-  });
-
-  useEffect(() => {
-    if (!isLoading) {
-      type ProjectData = (typeof projectsData)[0];
-      const fetchedProjectList = projectsData.map((projectData: ProjectData) => {
-        const buildersData = withdrawalsData?.cohortWithdrawals.items.filter(
-          (withdrawalData: Withdrawal) => withdrawalData.projectName === projectData.name,
-        );
-        const projectResult: ProjectResult = {
-          name: projectData.name,
-          title: projectData.title,
-          builders: buildersData
-            ? [...new Set(buildersData.map((builderData: Withdrawal) => builderData.cohortBuilder.address))]
-            : [],
-          description: projectData.description,
-          githubUrl: projectData.githubUrl,
-          liveUrl: projectData.liveUrl,
-        };
-        return projectResult;
-      });
-      setProjectsResult(fetchedProjectList);
-    }
-  }, [withdrawalsData, isLoading]);
-
-  return { data: projectsResult, isLoading };
+  return { data, isLoading: false };
 };

@@ -10,7 +10,7 @@ import { ProjectCard } from "~~/components/ProjectCard";
 import { Stream, StreamItem } from "~~/components/Stream";
 import { StreamContributionItem } from "~~/components/StreamContributionItem";
 import { WithdrawModal } from "~~/components/WithdrawModal";
-import { useCohortBuilders } from "~~/hooks/useCohortBuilders";
+import { buildersData } from "~~/data/builders";
 import { useCohortBuildersWithWithdrawals } from "~~/hooks/useCohortBuildersWithWithdrawals";
 import { useCohortProjects } from "~~/hooks/useCohortProjects";
 import { useCohortWithdrawals } from "~~/hooks/useCohortWithdrawals";
@@ -23,8 +23,7 @@ const Home: NextPage = () => {
     useCohortBuildersWithWithdrawals();
   const { data: cohortProjectsData, isLoading: isLoadingCohortProjects } = useCohortProjects();
   const { address: currentUserAddress } = useAccount();
-  const { data: builders, isLoading: isBuildersLoading } = useCohortBuilders();
-  const isBuilder = builders?.some(builder => builder.address.toLowerCase() === currentUserAddress?.toLowerCase());
+  const isBuilder = buildersData.some(builder => builder.address.toLowerCase() === currentUserAddress?.toLowerCase());
 
   return (
     <div className="px-4 md:px-0">
@@ -85,9 +84,7 @@ const Home: NextPage = () => {
         <section className="bg-base-300 rounded-lg p-8 mb-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-3xl md:text-4xl">Builders</h2>
-            {isBuildersLoading ? (
-              <span className="loading loading-spinner loading-md"></span>
-            ) : isBuilder ? (
+            {isBuilder ? (
               <button
                 className="btn btn-primary 2xl:min-w-32"
                 onClick={() => {

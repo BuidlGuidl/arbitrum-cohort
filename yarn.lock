@@ -5139,8 +5139,6 @@ __metadata:
     eslint-config-next: ~15.2.3
     eslint-config-prettier: ~10.1.1
     eslint-plugin-prettier: ~5.2.4
-    graphql: ^16.9.0
-    graphql-request: ^7.1.0
     kubo-rpc-client: ~5.0.2
     next: ^15.5.18
     next-nprogress-bar: ~2.3.13
@@ -12789,17 +12787,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-request@npm:^7.1.0":
-  version: 7.1.2
-  resolution: "graphql-request@npm:7.1.2"
-  dependencies:
-    "@graphql-typed-document-node/core": ^3.2.0
-  peerDependencies:
-    graphql: 14 - 16
-  checksum: 1b071bb8625ded9e487f93516a902b652502f781660dc1f1802b6988d2af90927f5b1efecbc2999a59e2f9cf586d7e78d5672e5bb6e7624f3e3eef355af3bb9a
-  languageName: node
-  linkType: hard
-
 "graphql-yoga@npm:^5.3.0":
   version: 5.13.4
   resolution: "graphql-yoga@npm:5.13.4"
@@ -12823,7 +12810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.0.0, graphql@npm:^16.8.1, graphql@npm:^16.9.0":
+"graphql@npm:^16.0.0, graphql@npm:^16.8.1":
   version: 16.11.0
   resolution: "graphql@npm:16.11.0"
   checksum: 65bc206edbe980f2759a8e4cf324873f75a66ab48263961472716e50127ae446739be20f926bb7f036a8d199bd4de072f684fd147c285bd6ba965d98cebb6200

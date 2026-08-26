@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { gql, request } from "graphql-request";
+import { useMemo } from "react";
+import { useDeployedContractInfo, useScaffoldEventHistory, useTargetNetwork } from "./scaffold-eth";
+import { formatUnits } from "viem";
+import { useReadContracts } from "wagmi";
 import { buildersData } from "~~/data/builders";
 import { projectsData } from "~~/data/projects";
+import { withdrawalsData } from "~~/data/withdrawals";
 import { BuilderWithSocialBase, WithdrawalRequestBase } from "~~/types/sharedTypes";
 
-type WithdrawalRequest = WithdrawalRequestBase & {
-  requestId: bigint;
-  builder: `0x${string}`;
-  cohortBuilder: {
-    cohortWithdrawals: {
-      items: WithdrawalRequestBase[];
-    };
-  };
-};
+// Block the Cohort contract was deployed at, see contracts/deployedContracts.ts
+const COHORT_START_BLOCK = 345914690n;
 
-type WithdrawalRequestsData = { cohortWithdrawalRequests: { items: WithdrawalRequest[] } };
+// withdrawRequests(builder, requestId) return values
+type WithdrawRequestState = readonly [
+  amount: bigint,
+  reason: string,
+  approved: boolean,
+  completed: boolean,
+  requestTime: bigint,
+  projectName: string,
+];
 
 type Withdrawal = WithdrawalRequestBase & {
   projectTitle: string;
@@ -28,91 +31,81 @@ type WithdrawalRequestResult = WithdrawalRequestBase & {
   withdrawals: Withdrawal[];
 };
 
-const fetchWithdrawalRequests = async () => {
-  const WithdrawalRequestsQuery = gql`
-    query WithdrawlRequests {
-      cohortWithdrawalRequests(where: { status: pending }, orderBy: "timestamp", orderDirection: "desc") {
-        items {
-          reason
-          builder
-          amount
-          timestamp
-          id
-          requestId
-          projectName
-          cohortBuilder {
-            cohortWithdrawals {
-              items {
-                id
-                amount
-                timestamp
-                reason
-                projectName
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-  const data = await request<WithdrawalRequestsData>(
-    process.env.NEXT_PUBLIC_PONDER_URL || "http://localhost:42069",
-    WithdrawalRequestsQuery,
-  );
-  return data;
-};
+const getProjectTitle = (projectName: string) =>
+  projectsData.find(project => project.name.toLowerCase() === projectName.toLowerCase())?.title || projectName;
 
+/**
+ * Pending withdrawal requests, read from the chain: WithdrawRequested events give us every
+ * (builder, requestId) pair, and the withdrawRequests mapping tells us which ones are still open.
+ * Both approving and rejecting a request set `completed`, so `!completed` means pending.
+ */
 export const useCohortWithdrawalRequests = () => {
-  const [withdrawalRequestsResult, setWithdrawalRequestsResult] = useState<WithdrawalRequestResult[]>([]);
+  const { targetNetwork } = useTargetNetwork();
+  const { data: deployedContract } = useDeployedContractInfo({ contractName: "Cohort" });
 
-  const { data: withdrawalRequestsData, isLoading } = useQuery({
-    queryKey: ["withdrawalRequests"],
-    queryFn: fetchWithdrawalRequests,
+  const { data: requestEvents, isLoading: isLoadingEvents } = useScaffoldEventHistory({
+    contractName: "Cohort",
+    eventName: "WithdrawRequested",
+    fromBlock: COHORT_START_BLOCK,
   });
 
-  useEffect(() => {
-    if (withdrawalRequestsData && withdrawalRequestsData.cohortWithdrawalRequests.items.length > 0) {
-      const fetchedWithdrawalRequestList = withdrawalRequestsData.cohortWithdrawalRequests.items.map(
-        (withdrawal: WithdrawalRequest) => {
-          const builderData = buildersData.find(
-            (builderData: any) => builderData.address.toLowerCase() === withdrawal.builder.toLowerCase(),
-          );
-          const projectData = projectsData.find(
-            (projectData: any) => projectData.name.toLowerCase() === withdrawal.projectName.toLowerCase(),
-          );
-          const withdrawRequestResult: WithdrawalRequestResult = {
-            id: withdrawal.id,
-            requestId: withdrawal.requestId,
-            reason: withdrawal.reason,
-            builder: {
-              address: withdrawal.builder,
-              x: builderData?.x || "",
-              github: builderData?.github || "",
-            },
-            amount: withdrawal.amount,
-            timestamp: withdrawal.timestamp,
-            projectName: withdrawal.projectName,
-            projectTitle: projectData?.title || withdrawal.projectName,
-            withdrawals: withdrawal.cohortBuilder.cohortWithdrawals.items.map(
-              (withdrawalItem: WithdrawalRequestBase) => ({
-                id: withdrawalItem.id,
-                amount: withdrawalItem.amount,
-                timestamp: withdrawalItem.timestamp,
-                reason: withdrawalItem.reason,
-                projectName: withdrawalItem.projectName,
-                projectTitle:
-                  projectsData.find(
-                    (projectData: any) => projectData.name.toLowerCase() === withdrawalItem.projectName.toLowerCase(),
-                  )?.title || withdrawalItem.projectName,
-              }),
-            ),
-          };
-          return withdrawRequestResult;
-        },
-      );
-      setWithdrawalRequestsResult(fetchedWithdrawalRequestList);
-    }
-  }, [withdrawalRequestsData]);
+  const requests = useMemo(
+    () =>
+      (requestEvents || []).flatMap(({ args }) =>
+        args.builder && args.requestId !== undefined
+          ? [{ builder: args.builder as `0x${string}`, requestId: args.requestId }]
+          : [],
+      ),
+    [requestEvents],
+  );
 
-  return { data: withdrawalRequestsResult, isLoading };
+  const { data: requestStates, isLoading: isLoadingStates } = useReadContracts({
+    contracts: requests.map(request => ({
+      chainId: targetNetwork.id,
+      address: deployedContract?.address,
+      abi: deployedContract?.abi,
+      functionName: "withdrawRequests",
+      args: [request.builder, request.requestId],
+    })),
+    query: { enabled: Boolean(deployedContract) && requests.length > 0 },
+  });
+
+  const data = useMemo<WithdrawalRequestResult[]>(() => {
+    if (!requestStates) return [];
+
+    return requests
+      .map((request, index) => ({ request, state: requestStates[index]?.result as WithdrawRequestState | undefined }))
+      .filter(({ state }) => state && !state[3])
+      .map(({ request, state }) => {
+        const [amount, reason, , , requestTime, projectName] = state as WithdrawRequestState;
+        const builder = buildersData.find(builder => builder.address.toLowerCase() === request.builder.toLowerCase());
+        return {
+          id: `${request.builder}-${request.requestId}`,
+          requestId: request.requestId,
+          reason,
+          builder: {
+            address: request.builder,
+            x: builder?.x || "",
+            github: builder?.github || "",
+          },
+          amount: parseFloat(formatUnits(amount, 6)),
+          timestamp: Number(requestTime),
+          projectName,
+          projectTitle: getProjectTitle(projectName),
+          withdrawals: withdrawalsData
+            .filter(withdrawal => withdrawal.builder.toLowerCase() === request.builder.toLowerCase())
+            .map(withdrawal => ({
+              id: withdrawal.id,
+              amount: withdrawal.amount,
+              timestamp: withdrawal.timestamp,
+              reason: withdrawal.reason,
+              projectName: withdrawal.projectName,
+              projectTitle: getProjectTitle(withdrawal.projectName),
+            })),
+        };
+      })
+      .sort((a, b) => b.timestamp - a.timestamp);
+  }, [requests, requestStates]);
+
+  return { data, isLoading: isLoadingEvents || (requests.length > 0 && isLoadingStates) };
 };
